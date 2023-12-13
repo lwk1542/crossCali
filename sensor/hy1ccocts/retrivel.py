@@ -20,6 +20,9 @@ class chl(object):
         self.b443 = b443
         self.b555 = b555
         self.b670 = b670
+        self.b490 = 2
+        self.b565 = 4
+        self.b520 = 3
 
     def value(self):
         chl_1 = self.chl_ci()
@@ -46,5 +49,5 @@ class chl(object):
         from l2gen import get_chl
 
         a = [0.3325, -2.8278, 3.0939, -2.0917, -0.0257]  # h1ccocts
-        chl2 = get_chl.chl_oc4(self.rrs, self.b443, self.b490, self.b520, self.b565, a)
+        chl2 = get_chl.chl_oc4(rrs=self.rrs, b443=self.b443, b490=self.b490, b520=self.b520, b565=self.b565, a=a)
         return chl2
