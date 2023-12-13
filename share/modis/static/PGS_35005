@@ -1,0 +1,85 @@
+MODIS,MODIS,35005
+286764544,MODIS_E_ARRAY_OUTPUT_ERR,NULL,Unable to output data to SDS
+286764545,MODIS_E_ATTACHED_VDATAS,NULL,Attempting to close the L1A output file with Vdatas still attached
+286764546,MODIS_E_CAL_FR_CNT_INVALID,NULL,MODIS calibration frame count outside valid range
+286764547,MODIS_E_CANT_PKT_PEEK,NULL,Cannot peek at next packet in the L0 file
+286764548,MODIS_E_CHECKSUM_NOT_VALID,NULL,Calculated checksum
+286764549,MODIS_E_CLOSE_VDATA,NULL,Unable to detach a Vdata from the L1A file
+286764550,MODIS_E_CORRUPT_PKT_HDR,NULL,Could not successfully unpack packet header
+286764551,MODIS_E_CREATE_L1A_GRANULE,NULL,Error creating L1A granule
+286764552,MODIS_E_CREATE_VDATA,NULL,Unable to create a Vdata
+286764553,MODIS_E_CREATE_VDATA_FIELD,NULL,Unable to create a Vdata field
+286764554,MODIS_E_DATATYPE_FAIL,NULL,Datatype not compatible with Vdata name
+286764555,MODIS_E_EARTH_FR_CNT_INVALID,NULL,MODIS Earth frame count outside valid range.
+286764556,MODIS_E_END_VDATA_FILE,NULL,Could not clean up Vdata
+286764557,MODIS_E_ENQUEUE,NULL,Could not successfully put the failed packet on the failed_pkt_queue
+286764558,MODIS_E_FAILED_TIMECODE_CONV,NULL,Failed to convert time code in MODIS packet
+286764559,MODIS_E_FIELD_NAME_LIST_OVERRUN,NULL,The Vdata field name list for VSsetfields exceeded the size defined in VU_MAX_FIELD_NAME_LIST_SIZE
+286764560,MODIS_E_FREE_QUEUE,NULL,Attempting to free non-empty queue
+286764561,MODIS_E_GATTRIB_FAILED,NULL,Unable to write global attribute
+286764562,MODIS_E_GET_VALID_L0_FILE,NULL,Error in getting valid L0 file
+286764563,MODIS_E_GETCONFIG_FAILED,NULL,A non-success message was returned while trying to retrieve data from the PCF file
+286764564,MODIS_E_HANDLE_MISSING_SCANS,NULL,Error handling missing scans
+286764565,MODIS_E_ID_TABLE_OVERFLOW,NULL,Attempting to insert into a full Vdata_id_table
+286764566,MODIS_E_INITIALIZATION_FAILED,NULL,Program failed initialization
+286764567,MODIS_E_INITIALIZE_GLOBAL_MD,NULL,Not all global metadata values could be initialized properly
+286764568,MODIS_E_INV_APID,NULL,Packet APID does not fall within MODIS AM1 range
+286764569,MODIS_E_INV_APID_TEST,NULL,Packet APID indicates this is a Test packet
+286764570,MODIS_E_INV_PKT_SEQ_FLAG,NULL,Group packet sequence flag is not valid
+286764571,MODIS_E_INV_PKT_TIME,NULL,A packet has been detected with an invlaid time code for the current scan
+286764572,MODIS_E_INV_PKT_TYPE,NULL,MODIS packet type is not normal
+286764573,MODIS_E_INV_QL_FLAG,NULL,Expedited data flag is not valid
+286764574,MODIS_E_INV_SEC_HDR_FLAG,NULL,Packet secondary header flag is not valid
+286764575,MODIS_E_INV_SECTOR,NULL,Packet source id code inconsistent with packet type
+286764576,MODIS_E_INV_TYPE,NULL,Packet primary header type is not valid
+286764577,MODIS_E_INV_VERSION,NULL,Packet primary herader version is not valid
+286764578,MODIS_E_INVALID_VDATA_ORDER,NULL,The order stored in the eng_data structure is invalid
+286764579,MODIS_E_INVALID_VDATA_TYPE,NULL,The datatype stored in the eng_data structure is invalid
+286764580,MODIS_E_LO_GETPACKET_FAILED,NULL,PGS_IO_L0_GetPacket returned a non-success message
+286764581,MODIS_E_L1A,NULL,Error indication returned by function.
+286764582,MODIS_E_MALLOC_FAILED,NULL,Unable to dynamically allocate memory
+286764583,MODIS_E_MAX_VDATAS_EXCEEDED,NULL,Attempting to attach more than VU_MAX_NUMBER_OF_VDATAS Vdatas to the L1A file
+286764584,MODIS_E_MET_SETATTR_FAILED,NULL,Unable to set metadata value
+286764585,MODIS_E_NO_SCANS_IN_PRODUCT,NULL,Time of current scan is greater than expected end of current L1A product
+286764586,MODIS_E_NULL_POINTER,NULL,A NULL Pointer was passed into procedure
+286764587,MODIS_E_PGS_IO_GEN_OPEN,NULL,PGS_IO_Gen_Open failed to open the engineering data list file.
+286764588,MODIS_E_PGS_IO_GEN_CLOSE,NULL,PGS_IO_Gen_Close failed to close the engineering data list file
+286764589,MODIS_E_PGS_IO_LO_CLOSE,NULL,PGS_IO_L0_Close failed to close the L0 file successfully
+286764590,MODIS_E_RECALL_ID,NULL,Error in recalling Vdata Id
+286764591,MODIS_E_SDS_CREATE_FAILED,NULL,Unable to initialize SDS
+286764592,MODIS_E_TAI_TO_UTC_FAILED,NULL,PGE_TD_TAItoUTC returned a non-success message Unable to convert TAI time to UTC representation
+286764593,MODIS_E_TOO_MANY_BITS,NULL,Function can extract up to 32 bits.
+286764594,MODIS_E_UTC_TO_TAI_FAILED,NULL,PGS_TD_UTCtoTAI returned a non-success message Unable to convert UTC time to TAI representation
+286764595,MODIS_E_SCAN_PROCESS,NULL,Unable to process scan successfully
+286764596,MODIS_E_SCANCNT_NOT_VALID,NULL,Packet Number:
+286764597,MODIS_E_VALIDATE_L0_HEADER,NULL,Corruption detected in the L0 File Header
+286764598,MODIS_E_VDATA_BUFFER_OVERFLOW,NULL,The S/C Ancillary Data has overflowed the data buffer
+286764599,MODIS_E_VDATA_WRITE_FAILED,NULL,Could not write to Vdata
+286764600,MODIS_E_VSFDEFINE,NULL,VSfdefine failed to define the Vdata field types
+286764601,MODIS_E_VSSETFIELDS,NULL,VSsetfields failed to set the Vdata field names
+286764602,MODIS_E_WRITE_GLOBAL_METADATA,NULL,Error writing global metadata
+286764603,MODIS_E_WRITE_SCAN_FAIL,NULL,Error writing a scan
+286764604,MODIS_E_WRITE_VDATA,NULL,Failed to successfully write the Vdata to L1A file
+286765117,MODIS_F_GETREF_FAILED,NULL,PGS_PC_GetReference returned a non-success message
+286765118,MODIS_F_INVAL_L0_FILE_RET,NULL,Cannot retrieve a valid L0 file
+286765119,MODIS_F_INVALID_ENG_DATA_LIST,NULL,The engineering data list file is corrupted
+286765120,MODIS_F_L0_HEADER_VAL_FAILED,NULL,L0 file header failed validation
+286765121,MODIS_F_L0_SETSTART_FAILED,NULL,Unable to find an available packet with time after start time of preloading engineering packets
+286765122,MODIS_F_NO_PCF_CONFIG_DATA,NULL,All configuration data could not be retrieved from the PCF file
+286765123,MODIS_F_PKT_READ_FAILED,NULL,Fatal error reading a packet
+286765124,MODIS_F_PROCESSAGRANULE,NULL,Error processing a granule
+286765125,MODIS_F_UNABLE_TO_INIT_MCF,NULL,Fatal error initializing a MCF file
+286765126,MODIS_F_WRITE_ENG_DATA_FAIL,NULL,Fatal error writing engineering data
+286762567,MODIS_M_PKT_NOT_IN_SCAN,NULL,Packet not in current scan
+286761544,MODIS_S_SUCCESS,NULL,Routine ran successfully
+286763081,MODIS_U_L1A_BEGIN,NULL,The L1A process started
+286763082,MODIS_U_L1A_END,NULL,The L1A process ended
+286764107,MODIS_W_CREATE_L1A_GRANULE,NULL,Warning: No packets available to create L1A granule
+286764108,MODIS_W_EXCESS_DATA_LIST,NULL,Warning: There are extra lines in the eng data list file
+286764109,MODIS_W_ID_TABLE_NOT_INIT,NULL,Warning: Vdata ID table has not been initialized
+286764110,MODIS_W_NEGATIVE_VDATA_CTR,NULL,Warning: Negative Vdata counter
+286764111,MODIS_W_NO_MORE_PACKETS,NULL,Warning: No more packets in Virtual file
+286764112,MODIS_W_INV_PKTLEN,NULL,Warning: Packet length is not equal to a MODIS short or long packet length
+286764113,MODIS_W_PRELOAD_ENG_DATA,NULL,Warning: There was no engineering data to preload for the specified time given
+286764114,MODIS_W_VDATA_NOT_IN_TABLE,NULL,Warning: Vdata not found in table
+286764115,MODIS_W_TOO_MANY_SCANS,NULL,Warning: Too many scans of data in granule

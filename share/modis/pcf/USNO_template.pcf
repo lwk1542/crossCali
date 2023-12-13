@@ -1,0 +1,38 @@
+#	Process Control File (PCF) - minimal set
+?   SYSTEM RUNTIME PARAMETERS
+# Production Run ID - unique production instance identifier
+1
+# Software ID - unique software configuration identifier
+1
+?   PRODUCT INPUT FILES
+# Next non-comment line is the default location for PRODUCT INPUT FILES
+!  ~/runtime
+?   PRODUCT OUTPUT FILES
+# Next line is the default location for PRODUCT OUTPUT FILES
+!  ~/runtime
+?   SUPPORT INPUT FILES
+# Next line is the default location for SUPPORT INPUT FILES
+!  .
+# leap seconds (TAI-UTC) file (DO NOT REMOVE THIS ENTRY)
+10301|leapsec.dat|||||1
+# polar motion and UTC-UT1 file (DO NOT REMOVE THIS ENTRY)
+10401|utcpole.dat|||||1
+?   SUPPORT OUTPUT FILES
+# Next line is default location for SUPPORT OUTPUT FILES
+!  .
+# These files support the SMF log functionality.
+10100|LogStatus|||||1
+10101|LogReport|||||1
+10102|LogUser|||||1
+# ASCII file which stores pointers to runtime SMF files
+10111|ShmMem|||||1
+?   USER DEFINED RUNTIME PARAMETERS
+# Toolkit version for which this PCF was intended.
+10220|Toolkit version string|SCF  TK5.2.19
+?   INTERMEDIATE INPUT
+!  ~/runtime
+?   INTERMEDIATE OUTPUT
+!  ~/runtime
+?   TEMPORARY I/O
+!  ~/runtime
+?   END

@@ -1,0 +1,18 @@
+MODIS,MODIS,39604
+324436480,MODIS_S_SDST_SUCCESS,NULL,%sSuccessful execution of routine.%s
+324439553,MODIS_E_SDST_BAD_ECS_DATA,NULL,%sError reading ECS metadata.%s
+324439554,MODIS_E_SDST_BAD_TIME_FORMAT,NULL,%sBad format for range beginning time: %.15s
+324439555,MODIS_E_SDST_BAD_DATE_FORMAT,NULL,%sBad format for range beginning date: %.10s
+324439556,MODIS_E_SDST_BAD_PROD_TYPE,NULL,%sValue for product type not recognized.%s
+324439557,MODIS_E_SDST_LOCALGRANULEID,NULL,%sError writing localgranuleid.%s
+324439046,MODIS_W_SDST_VERSIONID_BAD,NULL,%sError reading metadata VERSIONID.%s
+324439047,MODIS_W_SDST_TILECOORD_BAD,NULL,%sError reading Tile metadata:%s
+324439560,MODIS_E_SDST_BAD_MDHANDLES,NULL,%sInvalid mdHandles value.%s
+324438537,MODIS_N_SDST_IGEO_NOTFOUND,NULL,%sThis message should never get printed.%s
+324439050,MODIS_W_SDST_IGEO_INTERNAL,NULL,%sInternal warning:notify developers.%s
+324439563,MODIS_E_SDST_IGEO_BAD_ARG,NULL,%sInvalid argument - %s
+324439564,MODIS_E_SDST_IGEO_BAD_DATA,NULL,%sBad data in file %s
+324439565,MODIS_E_SDST_IGEO_READ,NULL,%sError reading %s
+324439566,MODIS_E_SDST_IGEO_MEM,NULL,%sInsufficient memory.%s
+324439567,MODIS_E_SDST_IGEO_INTERNAL,NULL,%sInternal error:notify developers.%s
+324438032,MODIS_U_SDST_TEST,NULL,%sSDST Test %s

@@ -1,0 +1,51 @@
+MODIS,MODIS,35251
+288779776,MODIS_E_BAD_DEM,NULL,%sInvalid input argument: %s
+288779777,MODIS_E_BAD_INPUT_ARG,NULL,%sInvalid input argument %s
+288779778,MODIS_E_BAD_SCAN,NULL,%sfscanf %s
+288779779,MODIS_E_BAD_VIEW_VEC,NULL,%sUnable to compute sample view vector %s
+288779780,MODIS_E_DATA_SCAN,NULL,%sNo valid encoder data in scan %s
+288779781,MODIS_E_DEM_DATA_SIZE,NULL,%sUnexpected data size: %s
+288779782,MODIS_E_DEM_IN_MEM,NULL,%sDEM in memory does not include lat/lon %s
+288779783,MODIS_E_DEM_METADATA,NULL,%sUnexpected DEM Metadata - units: %s
+288779784,MODIS_E_GEO,NULL,%sError returned by function %s
+288779785,MODIS_E_GEO_ANCIL_DATA,NULL,%sFewer than two unflagged samples: %s
+288779786,MODIS_E_GEO_BAD_SIZE,NULL,%sUnexpected size for geoid data:%s
+288779787,MODIS_E_GEO_EPH,NULL,%sThe ephemeris file is defective and should be replaced%s
+288779788,MODIS_E_GEO_FORMATTER,NULL,%sBoth sides of the formatter electronics were turned on for scan %s
+288779789,MODIS_E_GEO_INT_MIRR_ANG,NULL,%sError in GEO_interp_mirr_ang.
+288779790,MODIS_E_GEO_INT_MIRR_ENC,NULL,%sError in GEO_interp_mirr_enc.
+288779791,MODIS_E_GEO_MIRR_MOTION,NULL,%sImplausible mirror motion data for scan %s
+288779792,MODIS_E_GEO_MISSING_INPUTS,NULL,%sInput value not available for %s
+288779793,MODIS_E_GEO_NO_ZERO_ENCODER,NULL,%sCan't extrapolate to encoder count of 0.0 for scan %s
+288779794,MODIS_E_GEO_SCANNO_INPUT,NULL,%sUnable to support processing of number of scans:%s
+288779795,MODIS_E_GEO_VEC_UNIT3,NULL,%sError in GEO_vec_unit3 %s
+288779796,MODIS_E_GEO_WRONG_PLATFORM,NULL,%sIncorrect platform parameter %s
+288779797,MODIS_E_INSUFFICIENT_PKTS,NULL,%sInsufficient Ancillary Packet Data for interpolation. %s
+288779798,MODIS_E_MISSING_OUTPUT,NULL,%sOutput value not available for %s
+288779799,MODIS_E_NO_VAL_ATT_SAMP,NULL,%sNo valid attitude samples.
+288779800,MODIS_E_NO_VAL_AV_SAMP,NULL,%sNo valid angular velocity samples.
+288779801,MODIS_E_NO_VAL_ORB_SAMP,NULL,%sNo valid orbit samples.
+288779802,MODIS_E_NO_VAL_POS_SAMP,NULL,%sNo valid position samples.
+288779803,MODIS_E_NO_VAL_VEL_SAMP,NULL,%sNo valid velocity samples.
+288779804,MODIS_E_ONE_UNFLAG,NULL,%sOnly one unflagged value in array.
+288779805,MODIS_E_PREMATURE_EOF,NULL,%sPremature end of file on %s
+288779806,MODIS_E_UNKNOWN_PARAMETER,NULL,%sUnknown configuration parameter: %s
+288779807,MODIS_E_UTIL_MAX_POLY,NULL,%sPolynomial degree greater than MAX_POLY_DEGREE.
+288779808,MODIS_E_UTIL_POLY,NULL,%sPolynomial degree less than one.
+288779809,MODIS_E_UTIL_VEC,NULL,%sVector has zero magnitude.
+288779810,MODIS_E_WRONG_FIELD,NULL,%sexpected:%s
+288779811,MODIS_E_WRONG_FILE,NULL,%sFirst line:%s
+288779812,MODIS_E_WRONG_LUT,NULL,%sLUT has incorrect version:%s
+288778789,MODIS_N_GEO_EXCESS_FILES,NULL,%sMore than %s files were staged.
+288778790,MODIS_N_GEO_MANEUVER,NULL,Return value (only): spacecraft was manuevering.
+288778279,MODIS_U_GEO_BEGIN,NULL,%s Seed file: 6.2 Running MOD_PR03 MODIS Geolocation main() %s
+288778280,MODIS_U_GEO_END,NULL,%sMOD_PR03 controlled exit, with exit code %s
+288778281,MODIS_U_GEO_GRANULE_ID,NULL,%sGRANULE_ID:%s
+288779306,MODIS_W_GEO_EPHEMERIS,NULL,%sNo s/c ephemeris/attitude files could be found for input time %s
+288779307,MODIS_W_GEO_FRAMENO_INPUT,NULL,%sInvalid %s
+288779308,MODIS_W_GEO_MIRR_CHAN,NULL,%sNo valid mirror channel data available.
+288779309,MODIS_W_GEO_MISSING_MET,NULL,%sMetadata could not be retrieved for LUN %s
+288779310,MODIS_W_MISSING_OUTPUT,NULL,%sOutput value not available for %s
+288779311,MODIS_W_NO_GEO,NULL,%sGranule contains no geolocatable pixels.%s
+288779312,MODIS_W_SAMP_TIME_OOR,NULL,%sSample time %s
+288779313,MODIS_W_SCAN_OFF,NULL,%sScan off edge of Earth. %s

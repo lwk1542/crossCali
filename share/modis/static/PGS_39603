@@ -1,0 +1,3 @@
+MODIS,MAPI,39603
+324431360,MAPI_E_ERR,NULL,MAPI_E_ERR...error message of MODIS API routines
+324430849,MAPI_W_ARN,NULL,MAPI_W_ARN...warning message of MODIS API routines

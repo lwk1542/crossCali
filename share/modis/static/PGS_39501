@@ -1,0 +1,35 @@
+MODIS,MODIS,39501
+323593728,MODIS_M_OPEN_GEN_FILE,NULL,%sOpening file %s.
+323593729,MODIS_M_CLOSE_GEN_FILE,NULL,%sClosing file %s.
+323593730,MODIS_M_MEM_FREE,NULL,%sFreeing memory structure %s.
+323593731,MODIS_M_CALLOC,NULL,%sAllocating memory: %s.
+323593732,MODIS_M_REALLOC,NULL,%sReallocating memory: %s
+323595781,MODIS_E_SREPORT_FAIL,NULL,%sError writing to status report: %s.
+323595782,MODIS_E_LEVEL1B_READ,NULL,%sError occurred while reading L1B data. %s.
+323595783,MODIS_E_CALLOC_FAIL,NULL,%sCalloc allocation error. %s
+323595784,MODIS_E_FUNCTION_ERROR,NULL,%s%s.
+323595785,MODIS_E_TEMP_DELETE,NULL,%sError deleting temporary buf file: logical %s.
+323595786,MODIS_E_MEM_FAILURE,NULL,%sExecutable halted.  Memory allocation failure: %s
+323596299,MODIS_F_MEM_FAILURE,NULL,%sExecutable halted.  Memory allocation failure: %s
+323596300,MODIS_F_OPEN_GEN_FILE,NULL,%sExecutable halted.  Fatal error opening file %s.
+323596301,MODIS_F_OPEN_TEMP_FILE,NULL,%sExecutable halted.  Fatal error opening file %s.
+323596302,MODIS_F_OPEN_INTRM_FILE,NULL,%sExecutable halted.  Fatal error opening file %s.
+323596303,MODIS_F_CLOSE_GEN_FILE,NULL,%sExecutable halted.  Fatal error closing file %s.
+323596304,MODIS_F_CLOSE_TEMP_FILE,NULL,%sExecutable halted.  Fatal error closing file %s.
+323596305,MODIS_F_CLOSE_INTRM_FILE,NULL,%sExecutable halted.  Fatal error closing file %s.
+323596306,MODIS_F_CALLOC_FAIL,NULL,%sExecutable halted.  Calloc allocation error: %s.
+323596307,MODIS_F_MALLOC_FAIL,NULL,%sExecutable halted.  Malloc allocation error: %s.
+323596308,MODIS_F_REALLOC_FAIL,NULL,%sExecutable halted.  Memory reallocation error: %s.
+323596309,MODIS_F_MEM_FREE_FAIL,NULL,%sExecutable halted.  Unable to free memory structure %s
+323596310,MODIS_F_MEM_ZERO,NULL,%sExecutable halted.  Fatal error initializing memory block or structure to zero: %s.
+323596311,MODIS_F_GETREF_FAIL,NULL,%sFailure to get reference ID from PCF file. %s.
+323596312,MODIS_F_GETCONFIG_FAIL,NULL,%sFailure to get command line parameter %s from PCF file.
+323596313,MODIS_F_LEVEL1B_READ,NULL,%sFailure reading L1B data. %s.
+323596314,MODIS_F_OPEN_HDF_FILE,NULL,%sExecutable halted.  Error opening HDF file %s
+323596315,MODIS_F_MAPI_FAIL,NULL,%sM-API failure.  Function: %s.
+323596316,MODIS_F_GETNUM_FILES,NULL,%sFailure in SDP function PGS_PC_GetNumberOfFiles, Logical: %s.
+323594781,MODIS_N_LEVEL1B_READ,NULL,%sMessage generated reading L1B data. %s.
+323594782,MODIS_N_OPEN_HDF,NULL,%s Opening HDF file: %s.
+323594783,MODIS_N_CLOSE_HDF,NULL,%s Closing HDF file: %s
+323592736,MODIS_S_SUCCESS,NULL,MODIS %sModule successful. %s.
+323594273,MODIS_U_NO_INFORMATION,NULL,%sTest of LogUser. %s.

@@ -1,0 +1,18 @@
+MODIS,MODIS,36100
+295735296,MODIS_F_OUT_OF_MEMORY,NULL,Out of memory running...%sTIME:%s
+295735297,MODIS_F_MEM_FREE_FAIL,NULL,Memory Free failed running...%sTIME:%s
+295735298,MODIS_F_FILE_NOT_FOUND,NULL,File not found running...%sTIME:%s
+295735299,MODIS_F_READ_ERROR,NULL,Read Error running...%sTIME:%s
+295735300,MODIS_F_WRITE_ERROR,NULL,Write Error running...%sTIME:%s
+295735301,MODIS_F_OUT_OF_RANGE,NULL,Out of range running...%sTIME:%s
+295734278,MODIS_W_OUT_OF_RANGE,NULL,Warning: Out of range running...%sTIME:%s
+295734279,MODIS_W_TIME_INCORRECT,NULL,Warning:Time incorrect running...%sTIME:%s
+295735304,MODIS_F_NOK,NULL,Fatal error(NOK) running...%sTIME:%s
+295735305,MODIS_F_HDF_ERROR,NULL,Fatal error (HDF) running...%sTIME:%s
+295735306,MODIS_F_NO_MORE,NULL,Fatal Error: No more data available (EOF) running...%sTIME:%s
+295731723,MODIS_S_NO_MORE,NULL,No more data available (EOF) running...%sTIME:%s
+295735308,MODIS_F_FILE_NOT_OPENED,NULL,File not opened running...%sTIME:%s
+295735309,MODIS_F_FILE_NOT_CREATED,NULL,File not created running...%sTIME:%s
+295735310,MODIS_F_INVALID_ARGUMENT,NULL,Invalid argument running...%sTIME:%s
+295734799,MODIS_E_TESTING,NULL,Testing error running...%sTIME:%s
+295731728,MODIS_S_OK,NULL,Completed Processing Successfully...%sTIME:%s

@@ -1,0 +1,171 @@
+DPS,DPREP,101
+827904,DPREP_S_SUCCESS,NULL,Success.
+830977,DPREP_E_ERROR,NULL,An unexpected error occurred.
+830978,DPREP_E_CANT_CREATE_OBJ,NULL,Could not create object.
+830979,DPREP_E_CANT_READ_PKT,NULL,Unable to read packel.
+830980,DPREP_E_PKT_BUF_SIZE_TOO_SMALL,NULL,The packet buffer size is less than the size of a CCSDS Primary Header.
+830469,DPREP_W_L0_FILE_WARNING,NULL,Recieved a warning while opening or closing L0 dataset. Proceeding.
+830982,DPREP_E_L0_DATA_ERROR,NULL,An error occured while accessing the L0 dataset.
+830983,DPREP_E_CLOSE_L0_DATASET,NULL,An error occurred while closing the L0 dataset.
+830984,DPREP_E_MEM_ALLOCATION,NULL,Cannot allocate required memory.
+830985,DPREP_E_BAD_INPUT_PARAM,NULL,Error in PCF input parameters.
+830986,DPREP_E_PCF_READ_ERROR,NULL,Error reading PCF parameters
+830987,DPREP_E_PCF_ID_ERROR,NULL,Error reading PCF ID : %d
+830988,DPREP_E_L0_CORRUPTED,NULL,L0 Dataset may be corrupted.
+830989,DPREP_E_LO_OVERLAP,NULL,The previous data set and the current data set overlap.
+830990,DPREP_E_FDD_LO_OVERLAP,NULL,The FDD replacement data set overlaps the next L0 data set.
+830991,DPREP_E_BAD_TIME_CONVERSION,NULL,An error occurred while converting time.
+830992,DPREP_E_CANT_INIT_PKT_VECTOR,NULL,Cannot intitialize DpPpPacketVector.
+830993,DPREP_E_INVALID_VEC_SIZE,NULL,The vector size is less than 3 or even.
+830994,DPREP_E_NO_MATCHING_APID,NULL,There are no packets in the current L0 dataset with the specified APID.
+830995,DPREP_E_ORB_MET_INIT,NULL,Can't initialize orbit metadata.
+830996,DPREP_E_GEN_TOOLKIT,NULL,Received an unexpected error from an SDP Toolkit function.
+830997,DPREP_E_ADVANCE_PKT_VEC,NULL,Can't advance the DpPpPacketVector.
+830486,DPREP_W_CANT_CHK_POS,NULL,Warning, could not check position data of packet.
+830487,DPREP_W_CANT_CHK_VEL,NULL,Warning, could not check velocity data of packet.
+830488,DPREP_W_CANT_CHECK_POS_VEL,NULL,Warning, could not check position and velocity data of packet.
+830489,DPREP_W_INSUFFICIENT_POINTS,NULL,Warning, insufficient number of surrounding points to check the data quality.
+830490,DPREP_W_SINGULAR_MTRX,NULL,Warning, matrix is singular or nearly singular.
+830491,DPREP_W_BAD_DATA_FIT,NULL,Warning, can't compute LS fit.
+831004,DPREP_E_OPEN_PREV_EPHEM_DATA,NULL,Could not open the previous ephemeris dataset.
+831005,DPREP_E_OPEN_PREV_ATT_DATA,NULL,Could not open the previous attitude dataset.
+830494,DPREP_W_CANT_CHK_ANGLE,NULL,Can't check angle data.
+830495,DPREP_W_CANT_CHK_ANGLE_RATE,NULL,Can't check angle rate data.
+830496,DPREP_W_CANT_CHK_DATA,NULL,Can't check the data.
+830497,DPREP_W_NO_OUTPUT_GEN,NULL,Configuration is not set to generate data sets.
+831010,DPREP_E_FILE_ACCESS,NULL,An error occurred while accessing file.
+831011,DPREP_E_RECORD_NOT_IN_FILE,NULL,The requested record does not exist.
+830500,DPREP_W_CONT_MISSING_PKTS,NULL,The contiguous missing packets threshold was exceeded. Prompt FDD for a replacement dataset spanning the following timerange: %s to %s.
+830501,DPREP_W_MISSING_DATA_EXCEEDED,NULL,The total missing data packets count was exceeded. Prompt FDD for a replacement dataset spanning the following timerange: %s to %s.
+830502,DPREP_W_MISSING_DATA,NULL,Non-critical data gaps have been found in the data set.
+830503,DPREP_W_SHORT_GAP_FOLLOWS,NULL,A short gap was found following %s data point: %s.
+830504,DPREP_W_SHORT_GAP_END,NULL,Short gap ends at %s data point: %s.
+830505,DPREP_W_LONG_GAP_FOLLOWS,NULL,A long gap was found following %s data point: %s.
+830506,DPREP_W_LONG_GAP_END,NULL,Long gap ends at %s data point: %s.
+830507,DPREP_W_SAFE_MODE,NULL,Spacecraft safe mode flag at data point: %s.
+830508,DPREP_W_LOW_YELLOW_EXCEEDED,NULL,Low yellow limit exceeded at %s data point: %s.
+830509,DPREP_W_HIGH_YELLOW_EXCEEDED,NULL,High yellow limit exceeded at %s data point: %s.
+830510,DPREP_W_LOW_RED_EXCEEDED,NULL,Low red limit exceeded at %s data point: %s.
+830511,DPREP_W_HIGH_RED_EXCEEDED,NULL,High red limit exceeded at %s data point: %s.
+828976,DPREP_M_QA_SUMMARY,NULL,Data Set QA Summary.
+831025,DPREP_E_GEN_EPHEM_REPORT,NULL,Could not generate the ephemeris report.
+831026,DPREP_E_RECORD_ORDER_ERROR,NULL,Encountered a record with a time earlier than the previously processed record.
+831027,DPREP_E_PROCESS_RANGE_ERROR,NULL,Encountered a record with a time outside the requested processing time range.
+830516,DPREP_W_USING_ESTIMATED_NODE,NULL,Cannot find actual node crossing, using estimated value.
+830517,DPREP_W_EST_ORBIT_PERIOD,NULL,Using estimated value for orbital period.
+830518,DPREP_W_CALC_ORB_PERIOD,NULL,Orbital period cannot be calculated. Insufficient number of node crossings were found. Using estimated value.
+830519,DPREP_W_CALC_NODE_PROP,NULL,Descending node propagation cannot be calculated. An insufficient number of node crossings were found. Using estimated value.
+831032,DPREP_E_NO_NODE_CROSSINGS,NULL,An insufficient number of node crossings are available with which to deduce the orbit metadata.
+831033,DPREP_E_NODE_NUM_ERROR,NULL,The number of ascending nodes must equal the number of descending nodes in the node crossings list.
+830522,DPREP_W_NOT_ELLIPSE_OR_CIRCLE,NULL,Some of the orbital elements deduced from input position and velocity vectors do not describe an ellipse or circle. Using %d of the original set of %d orbital element estimates to produce the best estimate orbital elements.
+830523,DPREP_W_NO_ORBITAL_ELEMENTS,NULL,No orbital elements deduced from input position and velocity vectors described an ellipse or circle. Unable to estimate orbital elements.
+831036,DPREP_E_ORB_ELEM_ERROR,NULL,Can't deduce orbital elements.
+831037,DPREP_E_GRANULE_TIMES,NULL,An error occurred while determining actual granule start and end times.
+831038,DPREP_E_NATIVE_OPEN,NULL,Can't open the output native format dataset
+831039,DPREP_E_NATIVE_WRITE,NULL,Can't write the native format dataset
+831040,DPREP_E_NATIVE_REW,NULL,Can't rewind the native format dataset
+831041,DPREP_E_TMP_OPEN,NULL,Can't open the temporary output native format dataset
+831042,DPREP_E_TMP_CLOSE,NULL,Can't close the temporary output native format dataset
+831043,DPREP_E_HDF_OPEN,NULL,Can't open the HDF format dataset
+831044,DPREP_E_HDF_VSATTACH,NULL,VSattach failure on dataset
+831045,DPREP_E_HDF_DEFINE_VDATA,NULL,Failure defining dataset Vdata fields
+831046,DPREP_E_HDF_WRITE,NULL,Error on HDF format dataset write
+831047,DPREP_E_MET_INIT,NULL,Error from PGS_MET_Init
+831048,DPREP_E_MET_SETATTR,NULL,Error from PGS_MET_SetAttr
+831049,DPREP_E_MET_WRITE,NULL,Error from PGS_MET_Write
+831050,DPREP_E_CLOSE_DATASET,NULL,Could not closeDataset
+831051,DPREP_E_INITIALIZE_DATASET,NULL,Could not initialize HDF formaTDataset
+831052,DPREP_E_NATIVE_ADD_HEADER,NULL,Could not add native header to theDataset
+831053,DPREP_E_RECORD_COUNT,NULL,Number of records written to theDataset is Different than the number in the header.
+831054,DPREP_E_NATIVE_ADD_RECORD,NULL,Could not add native record to the dataset
+831055,DPREP_E_HDF_ADD_RECORD,NULL,Could not add HDF record to the dataset.
+831056,DPREP_E_HDF_ADD_HEADER,NULL,Could not add HDF header to theDataset
+831057,DPREP_E_CANT_OPEN_FDD_FILE,NULL,Error attempting to open FDD definitive attitude data set.
+831058,DPREP_E_CANT_READ_FDD_RECORD,NULL,Error attempting to read an FDD definitive attitude data set record.
+831059,DPREP_E_CANT_READ_FDD_HEADER,NULL,Error attempting to read FDD definitive attitude data set header.
+831060,DPREP_E_CANT_PARSE_FDD_HEADER,NULL,Error attempting to parse FDD definitive attitude data set header.
+831061,DPREP_E_FDD_DATA_ERROR,NULL,An error occured while accessing the FDD definitive attitude dataset.
+831062,DPREP_E_CLOSE_FDD_DATASET,NULL,An error occurred while closing the FDD definitive attitude dataset.
+830551,DPREP_W_FDD_END_OF_DATASET,NULL,Encountered end of FDD data set.
+829016,DPREP_M_BEGIN,NULL,Data pre-processing (DPREP) PGE Beginning
+829017,DPREP_M_END,NULL,Data pre-processing (DPREP) PGE Ending (completed successfully)
+831066,DPREP_E_ABORT,NULL,Data pre-processing (DPREP) PGE Aborting (NOT completed successfully)
+829019,DPREP_M_PROCESS_TIMES,NULL,Requested processing time range: %s to %s.
+830044,DPREP_N_PARSE_PCF_ORBNUM_ERROR,NULL,Error parsing the initial orbit number from PCF: %s
+830045,DPREP_N_PARSE_PCF_SCID_ERROR,NULL,Error parsing the satellite ID from PCF: %s
+830046,DPREP_N_INVALID_MISSION_ID,NULL,Invalid mission day flag in PCF: %i
+830047,DPREP_N_PARSE_PCF_DINT_ERROR,NULL,Error parsing the expected data interval from PCF: %s
+830048,DPREP_N_PARSE_PCF_MSDAY_ERROR,NULL,Error parsing the mission day flag from PCF: %s
+830049,DPREP_N_PARSE_PCF_CURNAT_ERROR,NULL,Error parsing the current day's native format output dataset name from PCF: %s
+830050,DPREP_N_PARSE_PCF_CURHDF_ERROR,NULL,Error parsing the current day's HDF format output dataset name from PCF: %s
+830051,DPREP_N_PARSE_PCF_PRENAT_ERROR,NULL,Error parsing the previous day's input native format dataset name from PCF: %s
+830052,DPREP_N_PGS_ERROR,NULL,PGS Toolkit error from %s: %s
+830053,DPREP_N_GET_FDD_UREF_ERROR,NULL,Error retrieving the universal reference for the FDD Ephemeris Dataset: %s
+830054,DPREP_N_GET_PRENAT_UREF_ERROR,NULL,Error retrieving the universal reference for the previous day's input native format dataset: %s
+830055,DPREP_N_GET_L0ANC_UREF_ERROR,NULL,Error retrieving the universal reference for the L0 Ancillary Dataset: %s
+830056,DPREP_N_PARSE_PCF_FDD_ERROR,NULL,Error parsing FDD dataset name from PCF: %s
+830057,DPREP_N_PARSE_PCF_CST_ERROR,NULL,Error parsing collection start time from PCF: %s
+830058,DPREP_N_PARSE_PCF_CSP_ERROR,NULL,Error parsing collection stop time from PCF: %s
+830059,DPREP_N_NOT_AM1_FDD,NULL,Input file not an AM1 FDD Ephemeris Dataset.  Encountered product ID: %s (expect 'EPHEM   '), tape ID: %s (expect 'STANDARD'), source ID: %s (expect 'GTDS    ' or 'AMPT    '), and satellite ID: %i (expect %i)
+830060,DPREP_N_FDD_TIME_CONV_DATE,NULL,DpPrEphemerisTimeTai erroneous DATE argument value: %f
+830061,DPREP_N_FDD_TIME_CONV_DAYS,NULL,DpPrEphemerisTimeTai erroneous DAYS argument value: %f
+830062,DPREP_N_FDD_TIME_CONV_SECDAY,NULL,DpPrEphemerisTimeTai erroneous SECDAY argument value: %f
+830063,DPREP_N_OVERLAP_EPHEM_TIMELINE,NULL,Dataset overlap or corrupted timetags encountered in ephemeris timeline.  Time %s follows %s in time-ordered records.
+830064,DPREP_N_INVALID_PROCESS_MODE,NULL,Invalid processing mode flag in PCF: %i
+830065,DPREP_N_PARSE_PCF_PMODE_ERROR,NULL,Error parsing the processing mode flag from PCF: %s
+830066,DPREP_N_FDD_HEADER1_READ_ERROR,NULL,Error reading first header record.
+830067,DPREP_N_FDD_HEADER2_READ_ERROR,NULL,Error reading second header record.
+830068,DPREP_N_FDD_TIME_CONV_ERROR,NULL,DpPrEphemerisTimeTai failure converting FDD Ephemeris Dataset time to TAI.
+830069,DPREP_N_FDD_EPHEM_READ_ERROR,NULL,Error reading EPHEM record.
+830070,DPREP_N_PRENAT_SEEKTO_ERROR,NULL,Error on SeekTo on the previous day's native format ephemeris dataset.
+830071,DPREP_N_PRENAT_META_READ_ERROR,NULL,Error on read of previous day's native format attitude orbit metadata record.
+830072,DPREP_N_UNEXPECT_RUNTIME_ERROR,NULL,Unexpected runtime error.
+830073,DPREP_N_AM1_CURNAT_WRITE_ERROR,NULL,Error on output native format dataset write.
+830074,DPREP_N_META_VSATTACH_ERROR,NULL,VSattach failure on metadata Vdata.
+830075,DPREP_N_AM1_CURHDF_WRITE_ERROR,NULL,Error on output HDF format dataset write.
+830076,DPREP_N_META_SETFIELDS_ERROR,NULL,Failure defining metadata Vdata fields.
+830077,DPREP_N_CURNAT_SEEKTO_ERROR,NULL,Error on SeekTo on the current day's native format attitude dataset.
+830078,DPREP_N_UNKNOWN_SWITCH_ELEMENT,NULL,Unknown SWITCH statement element.
+830079,DPREP_N_HEADER_VSATTACH_ERROR,NULL,VSattach failure on header Vdata.
+830080,DPREP_N_HEADER_SETFIELDS_ERROR,NULL,Failure defining header Vdata fields.
+830081,DPREP_N_DATA_VSATTACH_ERROR,NULL,VSattach failure on data Vdata.
+830082,DPREP_N_DATA_SETFIELDS_ERROR,NULL,Failure defining data Vdata fields.
+830083,DPREP_N_AM1_FDD_OPEN_ERROR,NULL,Error opening AM1 FDD Ephemeris Dataset.
+830084,DPREP_N_AM1_NXTFDD_OPEN_ERROR,NULL,Error opening next AM1 FDD Ephemeris Dataset.
+830085,DPREP_N_AM1_CURNAT_OPEN_ERROR,NULL,Error opening the current day's output native format output dataset.
+830086,DPREP_N_AM1_HDF_OPEN_ERROR,NULL,Error opening the current day's output HDF format dataset for Vdata access.
+830087,DPREP_N_AM1_HDFSD_OPEN_ERROR,NULL,Error opening the current day's output HDF format dataset for science data access.
+830088,DPREP_N_AM1_PRENAT_OPEN_ERROR,NULL,Error opening the previous day's input native format dataset.
+830089,DPREP_N_EOF_PRIOR_EODS,NULL,End of AM1 FDD Ephemeris Dataset encountered prior to detection of sentinel flag.
+830090,DPREP_N_PARSE_PCF_MAXPOS_ERROR,NULL,Error parsing the maximum position vector range: %s
+830091,DPREP_N_PARSE_PCF_MINPOS_ERROR,NULL,Error parsing the minimum position vector range: %s
+830092,DPREP_N_PARSE_PCF_MAXVEL_ERROR,NULL,Error parsing the maximum velocity vector range: %s
+830093,DPREP_N_PARSE_PCF_MINVEL_ERROR,NULL,Error parsing the minimum velocity vector range: %s
+830094,DPREP_N_GET_NUMFILES_ERROR,NULL,Error determining the number of universal references for the L0 Ancillary data set.
+830095,DPREP_N_READ_WRITE_COUNT_ERROR,NULL,Discrepancy between number of ephemeris records read (%i) and written (%i).
+830096,DPREP_N_READ_COUNT_ERROR,NULL,Discrepancy between number of ephemeris records recorded in the dataset header (%i) and those read (%i).
+830097,DPREP_N_PARSE_PCF_INHDF_ERROR,NULL,Error parsing the input ephemeris HDF format dataset name from PCF: %s
+830098,DPREP_N_PARSE_PCF_OUTHDF_ERROR,NULL,Error parsing the output ephemeris HDF format dataset name from PCF: %s
+830099,DPREP_N_PARSE_PCF_PREHDF_ERROR,NULL,Error parsing the previous day's input HDF format dataset name from PCF: %s
+830100,DPREP_N_PARSE_PCF_PREID_ERROR,NULL,Error parsing the previous ephemeris data set logical ID from the PCF.
+830101,DPREP_N_PARSE_PCF_MDATA_ERROR,NULL,Error parsing the maximum contiguous missing data limit from PCF: %s
+830102,DPREP_N_PRENAT_HEAD_READ_ERROR,NULL,Error on read of previous day's native format ephemeris dataset header.
+830103,DPREP_N_PRENAT_DATA_READ_ERROR,NULL,Error on read of previous day's native format ephemeris data record.
+830104,DPREP_N_IN_TOOLKIT_OPEN_ERROR,NULL,Error on input Toolkit ephemeris dataset open.
+830105,DPREP_N_OUT_TOOLKIT_OPEN_ERROR,NULL,Error on output Toolkit ephemeris dataset open.
+830106,DPREP_N_PREV_TOOLKIT_OPEN_ERROR,NULL,Error on previous output Toolkit ephemeris dataset open.
+830107,DPREP_N_IN_TOOLKIT_READ_ERROR,NULL,Error on input Toolkit ephemeris dataset read.
+830108,DPREP_N_OUT_TOOLKIT_WRITE_ERROR,NULL,Error on output Toolkit ephemeris dataset write.
+830109,DPREP_N_DATA_FILLED_REPAIRED,NULL,%i ephemeris points gap-filled and %i ephemeris points repaired between %s and %s UTC.
+830110,DPREP_N_DATA_FILLED,NULL,%i ephemeris points gap-filled between %s and %s UTC.
+830111,DPREP_N_DATA_REPAIRED,NULL,%i ephemeris points repaired between %s and %s UTC.
+830112,DPREP_N_GAPFILL_INTERP_ERROR,NULL,Error detected by Toolkit AM1 ephemeris gap-fill routine.
+830113,DPREP_N_FLAGGED_DATA_REMAINS,NULL,Failed to accumulate enough ephemeris data points with which to perform the repair. A flagged record remains in the ephemeris timeline at %s.
+830114,DPREP_N_SHORT_GAP_REMAINS,NULL,Failed to accumulate enough ephemeris data points with which to perform the repair. A short data gap remains in the ephemeris timeline spanning %s to %s.
+830115,DPREP_N_PM1_FDD_OPEN_ERROR,NULL,Error opening PM1 FDD Ephemeris Dataset.
+830116,DPREP_N_PM1_CURNAT_OPEN_ERROR,NULL,Error opening the current day's output
+830117,DPREP_N_PM1_HDF_OPEN_ERROR,NULL,Error opening the current day's output
+830118,DPREP_N_PM1_PRENAT_OPEN_ERROR,NULL,Error opening the previous day's input
+830119,DPREP_N_PM1_HDFSD_OPEN_ERROR,NULL,Error opening the current day's output
+830120,DPREP_N_PM1_CURNAT_WRITE_ERROR,NULL,Error on output native format dataset
+830121,DPREP_N_PM1_CURHDF_WRITE_ERROR,NULL,Error on output HDF format dataset

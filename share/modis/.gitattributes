@@ -1,0 +1,7 @@
+*.hdf -delta
+*.DAT -delta
+*.dat -delta
+*.unf -delta
+*.grd -delta
+*.tar -delta
+*.gz -delta
