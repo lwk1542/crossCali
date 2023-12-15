@@ -13,19 +13,19 @@ import numpy as np
 from sharepy import predefine
 
 
-def get_default_chl(rrs: np.ndarray = None, bands: np.ndarray=None, b443: int = None, b490: int = None, b520: int = None, b555: int = None,
-                    b670: int = None, sensorid: str = None):
+def get_default_chl(rrs: np.ndarray, bands: np.ndarray, b443: int, b490: int, b520: int, b555: int,
+                    b670: int, sensorid: str):
     match sensorid:
         case "hy1ccocts":
             from sensor.hy1ccocts import retrivel
             chl = retrivel.chl(rrs, bands, b443, b555, b670).value()
-        case "hy1ccocts":
-            a = np.array([0.3272, -2.9940, 2.7218, -1.2259, -0.5683])  # seawifs
+        case "hy1dcocts":
+            # a = np.array([0.3272, -2.9940, 2.7218, -1.2259, -0.5683])  #  seawifs
             # 直接使用了oci算法， 该算法也是seadas的默认算法
             from sensor.hy1ccocts import retrivel
             chl = chl_oci(rrs=rrs, bands=bands, b443=b443, b490=b490, b520=b520, b555=b555, b670=b670)
         case _:
-            #直接使用了oci算法， 该算法也是seadas的默认算法
+            #  直接使用了oci算法， 该算法也是seadas的默认算法
             chl = chl_oci(rrs=rrs, bands=bands, b443=b443, b490=b490, b520=b520, b555=b555, b670=b670)
     return chl
 
