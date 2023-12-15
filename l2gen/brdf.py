@@ -32,10 +32,10 @@ from sharepy import predefine
 
 
 class BRDF:
-    def __init__(self, vza: np.ndarray = None, sza: np.ndarray = None, vaa: np.ndarray = None,
-                 saa: np.ndarray = None, bands: np.ndarray = None, F0: np.ndarray = None,
-                 chl: np.ndarray = None, nlw: np.ndarray = None, b443: int = None, b490: int = None,
-                 b520: int = None, b555: int = None, b670: int = None, foqopt: str = "FOQMOREL", ws: int = None,
+    def __init__(self, vza: np.ndarray, sza: np.ndarray, vaa: np.ndarray,
+                 saa: np.ndarray, bands: np.ndarray, F0: np.ndarray,
+                 chl: np.ndarray, nlw: np.ndarray, b443: int, b490: int,
+                 b520: int, b555: int, b670: int, ws: int, sensorid:str, foqopt: str = "FOQMOREL",
                  fqfile=r'C:\git_repository\liwenkai\atmosphericCorrection\LUT/morel_fq.h5'):
         self.vza = vza
         self.sza = sza
@@ -55,6 +55,7 @@ class BRDF:
         self.ws = ws
         self.ws[self.ws < 0] = 0
         self.ws[self.ws > 30] = 30
+        self.sensorid=sensorid
 
     def ocbrdf(self):
 
@@ -282,8 +283,7 @@ class BRDF:
         rrs = self.nlw / self.F0
         # 1. /* Compute starting chlorophyll (if not supplied) */
         chl = get_chl.get_default_chl(rrs=rrs, bands=self.bands, b443=self.b443, b490=self.b490, b520=self.b520,
-                                      b555=self.b555,
-                                      b670=self.b670)
+                                      b555=self.b555, b670=self.b670, sensorid=self.sensorid)
 
         # 2. mask 可能出现叶绿素小于0 的情况，这种需要掩膜掉
         mask = chl * 1.
@@ -308,7 +308,7 @@ class BRDF:
             rrs = self.nlw * brdf / self.F0
 
             chl = get_chl.get_default_chl(rrs=rrs, bands=self.bands, b443=self.b443, b490=self.b490, b520=self.b520,
-                                          b555=self.b555, b670=self.b670)
+                                          b555=self.b555, b670=self.b670, sensorid=self.sensorid)
         brdf[np.isnan(mask)] = 1.
         brdf[np.isnan(mask2)] = np.nan
 
