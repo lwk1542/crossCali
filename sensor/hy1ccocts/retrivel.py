@@ -33,7 +33,7 @@ class chl(object):
         chl_1[chl_1 > 0.15] = np.nan
         chl_2[chl_1 < 0.2] = np.nan
         chl_3[(chl_1 <= 0.15) | (chl_1 >= 0.2)] = np.nan
-        chl_value = np.nanmean([chl_1, chl_2, chl_3], axis=2)
+        chl_value = np.nanmean(np.dstack([chl_1, chl_2, chl_3]), axis=2)
         return chl_value
 
     def chl_ci(self):
