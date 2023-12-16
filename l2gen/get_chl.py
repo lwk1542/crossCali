@@ -18,19 +18,20 @@ def get_default_chl(rrs: np.ndarray, bands: np.ndarray, b443: int, b490: int, b5
     match sensorid:
         case "hy1ccocts":
             from sensor.hy1ccocts import retrivel
-            chl = retrivel.chl(rrs, bands, b443, b555, b670).value()
+            chl = retrivel.chl(rrs, b443, b555, b670).value()
         case "hy1dcocts":
-            # a = np.array([0.3272, -2.9940, 2.7218, -1.2259, -0.5683])  #  seawifs
+            #
             # 直接使用了oci算法， 该算法也是seadas的默认算法
             from sensor.hy1ccocts import retrivel
             chl = chl_oci(rrs=rrs, bands=bands, b443=b443, b490=b490, b520=b520, b555=b555, b670=b670)
         case _:
             #  直接使用了oci算法， 该算法也是seadas的默认算法
-            chl = chl_oci(rrs=rrs, bands=bands, b443=b443, b490=b490, b520=b520, b555=b555, b670=b670)
+            a = np.array([0.3272, -2.9940, 2.7218, -1.2259, -0.5683])  # seawifs
+            chl = chl_oci(rrs=rrs, bands=bands, b443=b443, b490=b490, b520=b520, b555=b555, b670=b670, a=a)
     return chl
 
 
-def chl_oci(rrs: np.ndarray = None, bands: np.ndarray=None, b443: int = None, b490: int = None, b520: int = None, b555: int = None, b670: int = None):
+def chl_oci(rrs: np.ndarray, bands: np.ndarray, b443: int, b490: int, b520: int, b555: int, b670: int, a:list[float]):
     """
     完成
     Args:
@@ -47,7 +48,7 @@ def chl_oci(rrs: np.ndarray = None, bands: np.ndarray=None, b443: int = None, b4
     t1 = 0.15
     t2 = 0.20
     chl1 = chl_hu(rrs=rrs, bands=bands, b443=b443, b555=b555, b670=b670)
-    chl2 = chl_oc4(rrs=rrs, b443=b443, b490=b490, b520=b520, b565=b555)
+    chl2 = chl_oc4(rrs=rrs, b443=b443, b490=b490, b520=b520, b565=b555, a=a)
     chl = np.full_like(rrs[:, :, 0], fill_value=predefine.thresholds().chlbad)
     chl[chl1 < t1] = chl1[chl1 < t1]
     chl[chl1 > t2] = chl2[chl1 > t2]
@@ -57,8 +58,7 @@ def chl_oci(rrs: np.ndarray = None, bands: np.ndarray=None, b443: int = None, b4
     return chl
 
 
-def chl_hu(rrs: np.ndarray = None, bands: np.ndarray = None, b443: int = None, b555: int = None,
-           b670: int = None):
+def chl_hu(rrs: np.ndarray, bands: np.ndarray, b443: int, b555: int, b670: int):
     """
     完成
     Args:
@@ -96,7 +96,7 @@ def chl_hu(rrs: np.ndarray = None, bands: np.ndarray = None, b443: int = None, b
     return chl
 
 
-def chl_oc4(rrs: np.ndarray, b443: int, b490: int, b520: int, b565: int , a:list):
+def chl_oc4(rrs: np.ndarray, b443: int, b490: int, b520: int, b565: int, a: list[float]):
 
     if not b520:
         b520 = b490
@@ -112,7 +112,7 @@ def chl_oc4(rrs: np.ndarray, b443: int, b490: int, b520: int, b565: int , a:list
     return chl
 
 
-def conv_rrs_to_555(Rrs: np.ndarray = None, wave: np.ndarray = None):
+def conv_rrs_to_555(Rrs: np.ndarray, wave: np.ndarray):
     convert = 1
     if np.abs(wave - 555) > 2:
         sw = 0.001723

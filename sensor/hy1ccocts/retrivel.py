@@ -11,8 +11,7 @@ import numpy as np
 
 
 class chl(object):
-    def __init__(self, rrs: np.ndarray = None, bands: np.ndarray = None, b443: int = None, b555: int = None,
-                 b670: int = None):
+    def __init__(self, rrs: np.ndarray , b443: int, b555: int, b670: int):
         # # X. Ye, J. Liu, M. Lin, J. Ding, B. Zou and Q. Song, "Global Ocean Chlorophyll-a Concentrations Derived
         # From COCTS Onboard the HY-1C Satellite and Their Preliminary Evaluation," in IEEE Transactions on Geoscience
         # and Remote Sensing, vol. 59, no. 12, pp. 9914-9926, Dec. 2021, doi: 10.1109/TGRS.2020.3036963.
