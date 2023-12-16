@@ -13,6 +13,6 @@ import main_ac
 # path =""
 
 sensorids = ["fy3dmersi", "hy1ccocts", "hy1dcocts"]
-ac = main_ac.Calcu(filespath=r"E:\XDA\hy1c",
-                   sensorid="hy1ccocts")
+ac = main_ac.Calcu(filespath=r"E:\XDA\fy3dmersi",
+                   sensorid="fy3dmersi")
 ac.run_main()
