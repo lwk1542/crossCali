@@ -15,7 +15,7 @@ import h5py
 import numpy as np
 from netCDF4 import Dataset
 
-from sharepy import predefine
+from l2gen import predefine
 
 
 def preprodata(f, dataID):

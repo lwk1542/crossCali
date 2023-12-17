@@ -16,11 +16,10 @@ import numpy as np
 import datetime
 import os
 import gc
-from sharepy import predefine
 from utils import read_img_info
 from sharepy import preprocessing
 from l2gen import atmosphericParameter, gas_transmittance, rayleigh_rad_V201, get_rhown_nir, aerosol_rad, \
-    whitecap_rad, get_chl, read_lut, getglint
+    whitecap_rad, get_chl, read_lut, getglint, predefine
 
 
 class Calcu(object):

@@ -10,7 +10,7 @@
 import numpy as np
 
 # from nptyping import Array
-from sharepy import predefine
+from l2gen import predefine
 
 
 def get_default_chl(rrs: np.ndarray, bands: np.ndarray, b443: int, b490: int, b520: int, b555: int,
@@ -20,10 +20,8 @@ def get_default_chl(rrs: np.ndarray, bands: np.ndarray, b443: int, b490: int, b5
             from sensor.hy1ccocts import retrivel
             chl = retrivel.chl(rrs, b443, b555, b670).value()
         case "hy1dcocts":
-            #
-            # 直接使用了oci算法， 该算法也是seadas的默认算法
             from sensor.hy1ccocts import retrivel
-            chl = chl_oci(rrs=rrs, bands=bands, b443=b443, b490=b490, b520=b520, b555=b555, b670=b670)
+            chl = retrivel.chl(rrs, b443, b555, b670).value()
         case _:
             #  直接使用了oci算法， 该算法也是seadas的默认算法
             a = np.array([0.3272, -2.9940, 2.7218, -1.2259, -0.5683])  # seawifs

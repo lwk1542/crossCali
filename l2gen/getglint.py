@@ -9,7 +9,7 @@
 https://oceancolor.gsfc.nasa.gov/docs/ocssw/glint_8c_source.html
 """
 import numpy as np
-from sharepy import predefine
+from l2gen import predefine
 
 
 class get_glint_coefficient:

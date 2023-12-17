@@ -22,7 +22,8 @@ from scipy.interpolate import RegularGridInterpolator
 # import sys
 import airmass
 # sys.path.append("..")
-from sharepy import predefine, array_simplify
+from sharepy import array_simplify
+from l2gen import predefine
 
 
 def aermod_interp_func(*args: str, target_value: str = None) -> dict:

@@ -28,7 +28,7 @@ from scipy import interpolate
 import get_chl
 import sys
 sys.path.append("..")
-from sharepy import predefine
+from l2gen import predefine
 
 
 class BRDF:

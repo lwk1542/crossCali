@@ -14,10 +14,9 @@ import os
 import h5py
 import numpy as np
 
-from sharepy import predefine
 from sharepy import readfile
 from l2gen import aerosol_radV2, atmosphericParameter, gas_transmittance, \
-    get_rhown_nir
+    get_rhown_nir, predefine
 from l2gen import whitecap_rad, general, get_chl, \
     rayleigh_rad, getglint, brdf as brdfmodel
 
@@ -117,7 +116,8 @@ if __name__ == '__main__':
         lr = lr * scaleRayleigh
         Lrc = (Ltemp - lr)
         Rrc = np.pi * Lrc / Fo_ / np.cos(np.pi * sza.reshape(sza.shape[0], sza.shape[1], 1) / 180)
-        from sensor.hy1ccocts import mask, file
+        from sensor.hy1ccocts import mask
+
         mask_matrix = mask.cloud_land_mask(rhos=Rrc * 1.)
         Ltemp=Ltemp*mask_matrix
         Ltemp = Ltemp - lr

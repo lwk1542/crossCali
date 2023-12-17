@@ -28,7 +28,8 @@ except:
     pass
 from scipy.interpolate import RegularGridInterpolator
 
-from sharepy import predefine, array_simplify
+from sharepy import array_simplify
+from l2gen import predefine
 import sys
 # sys.path.append(os.getcwd()+os.sep+"l2gen")
 sys.path.append("../l2gen")

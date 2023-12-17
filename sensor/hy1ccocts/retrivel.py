@@ -8,10 +8,12 @@
 @phone   : 132-9663-2830
 """
 import numpy as np
+from l2gen import predefine
+from l2gen import get_chl
 
 
 class chl(object):
-    def __init__(self, rrs: np.ndarray , b443: int, b555: int, b670: int):
+    def __init__(self, rrs: np.ndarray, b443: int, b555: int, b670: int):
         # # X. Ye, J. Liu, M. Lin, J. Ding, B. Zou and Q. Song, "Global Ocean Chlorophyll-a Concentrations Derived
         # From COCTS Onboard the HY-1C Satellite and Their Preliminary Evaluation," in IEEE Transactions on Geoscience
         # and Remote Sensing, vol. 59, no. 12, pp. 9914-9926, Dec. 2021, doi: 10.1109/TGRS.2020.3036963.
@@ -33,6 +35,8 @@ class chl(object):
         chl_2[chl_1 < 0.2] = np.nan
         chl_3[(chl_1 <= 0.15) | (chl_1 >= 0.2)] = np.nan
         chl_value = np.nanmean(np.dstack([chl_1, chl_2, chl_3]), axis=2)
+        chl_value[chl_value < predefine.thresholds().chlmin] = predefine.thresholds().chlmin
+        chl_value[chl_value > predefine.thresholds().chlmax] = predefine.thresholds().chlmax
         return chl_value
 
     def chl_ci(self):
@@ -45,8 +49,7 @@ class chl(object):
         return chl
 
     def chl_oc4(self):
-        from l2gen import get_chl
-
         a = [0.3325, -2.8278, 3.0939, -2.0917, -0.0257]  # h1ccocts
         chl2 = get_chl.chl_oc4(rrs=self.rrs, b443=self.b443, b490=self.b490, b520=self.b520, b565=self.b565, a=a)
         return chl2
+

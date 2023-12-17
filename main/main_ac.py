@@ -12,12 +12,11 @@ import datetime
 import os
 import gc
 import cv2
-from sharepy import predefine
 from utils import esdist, resize
 from sensor import read_img_info
 from utils import outfile_setting as output
-from l2gen import atmosphericParameter, gas_transmittance, rayleigh_rad_V201, get_rhown_nir, aerosol_rad, \
-    whitecap_rad, get_chl, read_lut, getglint, brdf, aerosol_radV2, rayleigh_rad
+from l2gen import atmosphericParameter, gas_transmittance, get_rhown_nir, whitecap_rad, get_chl, read_lut, getglint, brdf, aerosol_radV2, rayleigh_rad, \
+    predefine
 
 
 class Calcu(object):
@@ -416,7 +415,7 @@ class Calcu(object):
                                                                                              * last_tLw_nir[:, :, ib])
                 # /* Ramp-up ?*/
                 tLw_nir[:, :, ib][(0 < chl) & (chl < predefine.thresholds().cbot)] = 0.
-                loc_temp = (predefine.thresholds().cbot <chl) & (chl < predefine.thresholds().ctop)
+                loc_temp = (predefine.thresholds().cbot < chl) & (chl < predefine.thresholds().ctop)
                 tLw_nir[:, :, ib][loc_temp] = tLw_nir[:, :, ib][loc_temp] * (cslp * chl + cint)[loc_temp]
                 # /* Remove estimated NIR water-leaving radiance */
                 tLw[:, :, ib] = tLw[:, :, ib] - tLw_nir[:, :, ib]
@@ -495,7 +494,7 @@ class Calcu(object):
             # 找出停止迭代的像元
 
             # /* Shall we continue iterating */,
-            abnormal_id_3 = ((np.abs(refl_nir - last_refl_nir) < np.abs(predefine.thresholds().nir_chg * refl_nir))|(
+            abnormal_id_3 = ((np.abs(refl_nir - last_refl_nir) < np.abs(predefine.thresholds().nir_chg * refl_nir)) | (
                     refl_nir < 0.0))  # 已经触发了停止迭代条件的像元索引,这些位置的上一次结果已经是最合理的了，不再迭代；
             loc_temp = abnormal_chl_id_1 | abnormal_id_3
             # print("停止迭代的元素个数：{0}".format(np.sum(~np.isnan(loc_temp))-np.sum(np.isnan(nLw))))

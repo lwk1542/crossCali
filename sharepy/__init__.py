@@ -12,7 +12,6 @@ from .read_sensorinfo import *
 from .read_tif import *
 from .reproject import *
 from .get_filelist import *
-from .predefine import *
 from .array_simplify import *
 from .read_aerosol_seadas import *
 from .mask import *

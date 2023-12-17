@@ -12,12 +12,11 @@ import numpy as np
 import datetime
 import os
 import gc
-from sharepy import predefine
 from utils import esdist, resize, decomp
 from sensor import read_img_info
 from utils import outfile_setting as output
 from l2gen import atmosphericParameter, gas_transmittance, rayleigh_rad_V201, get_rhown_nir, aerosol_rad, \
-    whitecap_rad, get_chl, read_lut, getglint, brdf
+    whitecap_rad, get_chl, read_lut, getglint, brdf, predefine
 
 
 class Calcu(object):
