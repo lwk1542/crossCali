@@ -36,11 +36,11 @@ def matchup(txtfile: str) -> dict:
 if __name__ == '__main__':
     from sensor import sdgsat1mii
 
-    father_dir = r"G:\SDGsat\calibration\sea\2023\supply\case1"
+    father_dir = r"G:\SDGsat\calibration\sea\2023\validation\turbid"
     target_path = father_dir + os.sep + "target"
     subdirs = os.listdir(target_path)
     print("total {} images:".format(subdirs.__len__()), subdirs)
-    Scopefile = r"G:\SDGsat\calibration\sea\2023\supply\case1/download_log.txt"
+    Scopefile = r"G:\SDGsat\calibration\sea\2023/download_log.txt"
     match_dic = matchup(txtfile=Scopefile)
     for i, key in enumerate(match_dic.keys()):
         filedir = target_path + os.sep + key
