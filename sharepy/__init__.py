@@ -14,6 +14,5 @@ from .reproject import *
 from .get_filelist import *
 from .array_simplify import *
 from .read_aerosol_seadas import *
-from .mask import *
 from .spatial_limit import *
 from .readfile import *

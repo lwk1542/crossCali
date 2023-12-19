@@ -15,12 +15,13 @@ import cv2
 from utils import esdist, resize
 from sensor import read_img_info
 from utils import outfile_setting as output
-from l2gen import atmosphericParameter, gas_transmittance, get_rhown_nir, whitecap_rad, get_chl, read_lut, getglint, brdf, aerosol_radV2, rayleigh_rad, \
-    predefine
+from l2gen import atmosphericParameter, gas_transmittance, get_rhown_nir, whitecap_rad, get_chl, read_lut, getglint, \
+    brdf, aerosol_radV2, rayleigh_rad, rayleigh_rad_V201, aerosol_rad, predefine
 
 
 class Calcu(object):
-    def __init__(self, filespath: str, sensorid: str = "hy1ccocts" or "fy3dmersi" or "sdgsat1mii"):
+    def __init__(self, filespath: str, sensorid: str = "hy1ccocts" or "fy3dmersi" or "sdgsat1mii",
+                 rrc_out: bool = True, rrs_out: bool = False, block_size_rows: int = 3000):
         # ++++++++++++++++++++++++++++++++++需要设置的参数+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # self.sensorID = "hy1ccocts"  # "sdgsat1mii", "olcis3a"
         # self.filespath = r"C:\Users\DELL\Desktop\test\fy3dmersi"  # 数据路径
@@ -30,16 +31,16 @@ class Calcu(object):
         self.sensor_alt = 720
         self.nonzeroNIR = "want_nirLw"
         self.resize = None  # 重采样的尺度
-        self.block_size_rows = 3000  # 一次读取原始影像的行数;None全部读取
-        self.rrc_out = True  # 是否输出相关结果
-        self.rrs_out = True
-        self.ltoa_out = True
-        self.tLf_out = True
-        self.TLg_out = True
-        self.La_out = True
-        self.tLf = True
-        self.tg_out = True
-        self.lr_out = True
+        self.block_size_rows = block_size_rows  # 一次读取原始影像的行数;None全部读取
+        self.rrc_out = rrc_out  # 是否输出相关结果
+        self.rrs_out = rrs_out
+        self.ltoa_out = None
+        self.tLf_out = None
+        self.TLg_out = None
+        self.La_out = None
+        self.tLf = None
+        self.tg_out = None
+        self.lr_out = None
         self.chl_out = False
         self.brdf_factor = None
         self.south, self.north, self.west, self.east = 21.9, 22.8, 113, 114.6  # 尚未使用
@@ -194,7 +195,7 @@ class Calcu(object):
                     np.deg2rad(self.sza_chunk.reshape((self.rows_chunk, self.columns_chunk, 1)))) / t_sen / t_sen
                 mask = self.cloud_land_mask(rhos=Rrc)
                 self.Ltemp = self.Ltemp * mask
-                Rrc=Rrc*mask
+                Rrc = Rrc * mask
                 if self.rrc_out:
                     # Rrc = np.pi * self.Ltemp / self.Fo_ / np.cos(
                     #     np.deg2rad(self.sza.reshape(self.rows_org, self.columns_org, 1)))
@@ -254,18 +255,22 @@ class Calcu(object):
                 from sensor.hy1dcocts import mask, file
             case "fy3dmersi":
                 from sensor.fy3dmersi import mask, file
+            case "sdgsat1mii":
+                from sensor.sdgsat1mii import mask, file
+            case "landsat8oli":
+                from sensor.landsat8oli import mask, file
             case _:
                 from sensor.hy1ccocts import mask, file
         return mask, file
 
     def file_match(self):
-        mask, file = self.package_match()
+        _, file = self.package_match()
         files = file.search_(path=self.filespath)
         return files
 
     def cloud_land_mask(self, rhos):
         mask, file = self.package_match()
-        mask_matrix = mask.cloud_land_mask(rhos=rhos*1.)
+        mask_matrix = mask.cloud_land_mask(rhos=rhos * 1.)
         # mask_matrix = 1.
         return mask_matrix
 
@@ -313,12 +318,12 @@ class Calcu(object):
     def rayleigh(self):
         # 6. 移除瑞利贡献
         # print("computing rayleigh scattering radaince...")
-        # lr = rayleigh_rad_V201.rayleigh(raylut_info=self.rayleigh_lut_info, sza=self.sza,
-        #                                 vza=self.vza, saa=self.saa, vaa=self.vaa,
-        #                                 F0=self.FoBAR, windspeed=self.wind_speed,
-        #                                 pressure=self.pressure)
-        lr = rayleigh_rad.rayleigh(rayleigh_lut_path=self.rayleigh_lut_info, sza=self.sza, vza=self.vza, saa=self.saa,
-                                   vaa=self.vaa, F0=self.FoBAR, windspeed=self.wind_speed, pressure=self.pressure)
+        lr = rayleigh_rad_V201.rayleigh(raylut_info=self.rayleigh_lut_info, sza=self.sza,
+                                        vza=self.vza, saa=self.saa, vaa=self.vaa,
+                                        F0=self.FoBAR, windspeed=self.wind_speed,
+                                        pressure=self.pressure)
+        # lr = rayleigh_rad.rayleigh(rayleigh_lut_path=self.rayleigh_lut_info, sza=self.sza, vza=self.vza, saa=self.saa,
+        #                            vaa=self.vaa, F0=self.FoBAR, windspeed=self.wind_speed, pressure=self.pressure)
 
         scaleRayleigh = 1.0 - np.exp(-self.sensor_alt / 10)
         self.lr = lr * scaleRayleigh
@@ -328,12 +333,16 @@ class Calcu(object):
         return self.lr
 
     def aerosol_iter_nir(self):
+        """
+        新的
+        :return:
+        """
         # /* ------------------------------------------------------------------------------------------------------ */
         # /* Begin interations for aerosol with corrections for non-zero nLw(NIR)近红外波段不等于0 */
         # /* ------------------------------------------------------------------------------------------------------ */
         # / *Initialize tLw as surface + aerosol radiance * /
         # taua = 0.1
-        # self.chl = np.full(shape=(self.rows_chunk, self.columns_chunk), fill_value=predefine.thresholds().seed_chl)
+
         ltemp = self.Ltemp * 1.
         if self.resize:
             ltemp = resize.down_sample_aerosol(lt=ltemp, resize=self.resize,
@@ -358,7 +367,7 @@ class Calcu(object):
         loc_iter = np.full_like(mu0, fill_value=1.)  # 这个矩阵要乘以3维矩阵的，声明为3维
         tLw_final = np.full_like(ltemp, fill_value=np.nan)
         TLg_final = np.full_like(ltemp, fill_value=np.nan)
-        La_final = np.full_like(ltemp, fill_value=np.nan)   # 最终计算的气溶胶结果
+        La_final = np.full_like(ltemp, fill_value=np.nan)  # 最终计算的气溶胶结果
         t_sen_final = np.full_like(ltemp, fill_value=self.t_sen * 1.)
         t_sol_final = np.full_like(ltemp, fill_value=self.t_sol * 1.)
         La = np.full_like(ltemp, fill_value=np.nan)  # 本次计算的气溶胶结果
@@ -384,7 +393,7 @@ class Calcu(object):
             # 第一次其实只需要做出近红外波段的耀斑，助后面选出气溶胶模型
             # /* Initialize tLw as surface + aerosol radiance */
             # loc_iter表示是否参与计算，初始化全部为1，通过迭代后，不需要参与下一次计算的像元在 loc_iter中标记为np.nan
-            tLw = ltemp * loc_iter   # 初始化ltemp，作为水体、气溶胶、耀斑的总信号，后面将逐项减去
+            tLw = ltemp * loc_iter  # 初始化ltemp，作为水体、气溶胶、耀斑的总信号，后面将逐项减去
             if np.nanmin(iterx) > 1:
                 La_pre = La * 1.
                 TLg_pre = TLg * 1.
@@ -393,7 +402,7 @@ class Calcu(object):
             iter_num_glint = 2  # 用于计算耀斑的最大迭代次数，wang指出2次就够
             mode = 2  # mode表示计算耀斑时的气溶胶光学厚度数据来源，2表示从外部获取，1和0分别表示设置0.1的固定值或者依据wang的估算方法
             TLg = getglint.main_exec(iter_num=iter_num_glint, sza=self.sza, vza=self.vza, saa=self.saa, vaa=self.vaa,
-                                     taur=self.taur, La=tLw*1., F0=self.FoBAR, windspeed=self.wind_speed,
+                                     taur=self.taur, La=tLw * 1., F0=self.FoBAR, windspeed=self.wind_speed,
                                      winddirection=wd_rad, taua=self.taua, mode=mode)
             tLw = ltemp - TLg
             # step 1:  对于近红外波段离水非0信号，通过IOP模型推导NIR离水信号
@@ -423,20 +432,20 @@ class Calcu(object):
                 del loc_temp
 
             # step 2:到这里假设，通过离水的近红外信号和瑞利校正后的近红外信号，计算气溶胶的近红外信号
-            l_nir1 = tLw[:, :, self.nirs_num] #- tLw_nir[:, :, self.nirs_num]
-            l_nir2 = tLw[:, :, self.nirl_num] #- tLw_nir[:, :, self.nirl_num]
-            # aero_out = aerosol_rad.atmos_corr(l_a_nir1=l_nir1, l_a_nir2=l_nir2, lon=self.lon, lat=self.lat,
-            #                                   F0=self.FoBAR, bands=self.bands, taur=self.Tau_r,
-            #                                   aerosol_models_info=self.aerosol_lut_info, pressure=self.pressure,
-            #                                   sza=self.sza, vza=self.vza, saa=self.saa, vaa=self.vaa,
-            #                                   winds_peed=self.wind_speed, relative_humidity=self.rh,
-            #                                   nirl_num=self.nirl_num, nirs_num=self.nirs_num)
-            aero_out = aerosol_radV2.calculate(l_a_nir1=l_nir1, l_a_nir2=l_nir2, lon=self.lon, lat=self.lat,
-                                               F0=self.FoBAR, bands=self.bands, taur=self.Tau_r,
-                                               aerosol_lut_filepath=self.aerosol_lut_info, pressure=self.pressure,
-                                               sza=self.sza, vza=self.vza, saa=self.saa, vaa=self.vaa,
-                                               winds_peed=self.wind_speed, relative_humidity=self.rh,
-                                               nirl_num=self.nirl_num, nirs_num=self.nirs_num)
+            l_nir1 = tLw[:, :, self.nirs_num]  # - tLw_nir[:, :, self.nirs_num]
+            l_nir2 = tLw[:, :, self.nirl_num]  # - tLw_nir[:, :, self.nirl_num]
+            aero_out = aerosol_rad.atmos_corr(l_a_nir1=l_nir1, l_a_nir2=l_nir2, lon=self.lon, lat=self.lat,
+                                              F0=self.FoBAR, bands=self.bands, taur=self.Tau_r,
+                                              aerosol_models_info=self.aerosol_lut_info, pressure=self.pressure,
+                                              sza=self.sza, vza=self.vza, saa=self.saa, vaa=self.vaa,
+                                              winds_peed=self.wind_speed, relative_humidity=self.rh,
+                                              nirl_num=self.nirl_num, nirs_num=self.nirs_num)
+            # aero_out = aerosol_radV2.calculate(l_a_nir1=l_nir1, l_a_nir2=l_nir2, lon=self.lon, lat=self.lat,
+            #                                    F0=self.FoBAR, bands=self.bands, taur=self.Tau_r,
+            #                                    aerosol_lut_filepath=self.aerosol_lut_info, pressure=self.pressure,
+            #                                    sza=self.sza, vza=self.vza, saa=self.saa, vaa=self.vaa,
+            #                                    winds_peed=self.wind_speed, relative_humidity=self.rh,
+            #                                    nirl_num=self.nirl_num, nirs_num=self.nirs_num)
             if aero_out is None:
                 if self.resize:
                     TLg_final = resize.up_sample(data=TLg, lat=self.lat, lon=self.lon, lat_tar=self.lat_chunk,
@@ -454,7 +463,7 @@ class Calcu(object):
             tLw = tLw - La
             Lw = tLw / t_sen * self.tg_sol
             nLw = Lw / t_sol / self.tg_sol / mu0 / self.fsol
-            brdf_factor = self.fq_brdf_correct(nLw=nLw*1.)
+            brdf_factor = self.fq_brdf_correct(nLw=nLw * 1.)
             nLw = nLw * brdf_factor
 
             # step 3:气溶胶校正完成，计算新的Rrs和叶绿素，并进行一系列判断，是否为合理的Rrs，不合理的像元进行下一次迭代，后面根据新的Rrs估算近红外离水信息
@@ -483,7 +492,7 @@ class Calcu(object):
             iter_reset[abnormal_chl_id_1] = 2  # 标注
             # print("叶绿素异常且不再迭代计算的值个数：{0}".format(np.sum(iter_reset == 2)))
             iterx[abnormal_chl_id_1] = iter_max[abnormal_chl_id_1]
-            abnormal_chl_id_2 = ((chl == predefine.thresholds().chlbad) & (iter_reset == 0) & (iterx < iter_max)) # 原判断
+            abnormal_chl_id_2 = ((chl == predefine.thresholds().chlbad) & (iter_reset == 0) & (iterx < iter_max))  # 原判断
             chl[abnormal_chl_id_2] = 10
             iter_reset[abnormal_chl_id_2] = 1  # 标注
             # print("叶绿素异常并再次迭代计算的值个数：{0}".format(np.sum(iter_reset == 1)))
@@ -528,7 +537,7 @@ class Calcu(object):
             Lw = tLw / t_sen * self.tg_sol  # 根据tLw的标识，计算下一次迭代需要的参数
             # mu0 = np.cos(np.deg2rad(self.sza)).reshape(self.sza.shape[0], self.sza.shape[1], 1)
             nLw = Lw / t_sol_final / self.tg_sol / mu0 / self.fsol
-            brdf_factor = self.fq_brdf_correct(nLw=nLw*1.)
+            brdf_factor = self.fq_brdf_correct(nLw=nLw * 1.)
             nLw = nLw * brdf_factor
             # #  /* Compute final Rrs */
             Rrs = nLw / self.Fo_
@@ -539,10 +548,10 @@ class Calcu(object):
                                           sensorid=self.sensorID)
 
             chl[chl <= 0] = np.nan
-            last_refl_nir = refl_nir*1.
+            last_refl_nir = refl_nir * 1.
 
             if iter_num == predefine.thresholds().aer_iter_max:
-                last_iter[last_iter !=1] = 1
+                last_iter[last_iter != 1] = 1
             else:
                 iter_num = iter_num + 1
             # 至此，迭代完成
@@ -777,7 +786,7 @@ class Calcu(object):
 
     def fq_brdf_correct(self, nLw):
         #  /* Compute f/Q correction and apply to nLw */
-        Rrs= nLw/self.FoBAR
+        Rrs = nLw / self.FoBAR
         chl = get_chl.get_default_chl(rrs=Rrs, bands=self.bands, b443=self.num_443, b490=self.num_490,
                                       b520=self.num_520, b555=self.num_555, b670=self.num_670, sensorid=self.sensorID)
         brdf_mod = brdf.BRDF(vza=self.vza, sza=self.sza, vaa=self.vaa, saa=self.saa, bands=self.bands,
@@ -872,13 +881,11 @@ class Calcu(object):
         :param window_size:
         :return:
         """
-        # from scipy.ndimage import uniform_filter
-        from scipy.ndimage import generic_filter
-        kernel = np.ones((3, 3, 1), dtype=np.uint8)
-        dilated_array = cv2.dilate(array, kernel, 2)
-        # smoothed_array = uniform_filter(array, size=3, mode="nearest")
-        # smoothed_array = cv2.blur(dilated_array, ksize=(window_size, window_size), borderType=cv2.BORDER_CONSTANT)
-        smoothed_array = generic_filter(dilated_array, np.nanmean, mode="nearest", size=3)
+        # from scipy.ndimage import generic_filter
+        # kernel = np.ones((3, 3, 1), dtype=np.uint8)
+        # dilated_array = cv2.dilate(array, kernel, 2)
+        # smoothed_array = generic_filter(dilated_array, np.nanmean, mode="nearest", size=window_size)
+        smoothed_array=array
         return smoothed_array
 
 

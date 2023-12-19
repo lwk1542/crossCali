@@ -79,6 +79,15 @@ def calib_xml(xmlfile):
                      [0.00127, 0.20652],
                      [0.00142, 0.06843],
                      [0.00091, 0.05786]]
+
+    # new_caliCoeff = [[0.00503, 1.45823],
+    #                  [0.00314, 1.95308],
+    #                  [0.00249, 0.14742],
+    #                  [0.00162, -0.06789],
+    #                  [0.0012, 0.32672],
+    #                  [0.00139, 0.07772],
+    #                  [0.00092, 0.06119]]
+
     gains = np.array([i[0] for i in new_caliCoeff])
     bias = np.array([i[1] for i in new_caliCoeff])
     return gains, bias

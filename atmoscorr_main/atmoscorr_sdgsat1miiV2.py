@@ -22,7 +22,7 @@ class Calcu(object):
     def __init__(self):
         # ++++++++++++++++++++++++++++++++++需要设置的参数+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         self.sensorID = "sdgsat1mii"  # "sdgsat1mii"
-        self.filespath = r"G:\SDGsat\calibration\sea\2023\validation\turbid\sdgsat1mii"  # 数据路径
+        self.filespath = r"G:\SDGsat\calibration\sea\2023\validation\turbid\target"  # 数据路径
         self.nonzeroNIR = "want_nirLw"
         self.resize = None  # 重采样的尺度
         self.block_size_rows = 150  # 一次读取原始影像的行数

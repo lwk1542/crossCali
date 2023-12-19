@@ -54,7 +54,7 @@ if __name__ == '__main__':
         for j, _ in enumerate(match_dic[key]):
             if _.__len__() < 5:
                 continue
-            id_ = ".".join(_.split(".")[:-1]) + ".SEN3_seadas_rrs.hdf"
+            id_ = ".".join(_.split(".")[:-1]) + ".SEN3_seadas_L2.hdf"
             print("================******第{}个参考文件******==============".format(j, id_))
             reference_file = father_dir + os.sep + "reference" + os.sep + id_
             simulate = cross_calibration_sdgsat1miiv3.SimulationLtoa(target_file=target_file,
