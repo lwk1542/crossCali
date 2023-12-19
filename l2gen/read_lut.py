@@ -36,8 +36,8 @@ class CommonVariable(object):
         rayleigh_lut_info = self.read_rayleigh_lut()
         aerosol_lut_info = self.read_aerosol_lut()
         print("successfully loaded sensor info and look-up table...")
-        # return sensor_info, rayleigh_lut_info,  aerosol_lut_info
-        return sensor_info, self.rayleigh_lut_path, self.aerosol_lut_path
+        return sensor_info, rayleigh_lut_info,  aerosol_lut_info
+        # return sensor_info, self.rayleigh_lut_path, self.aerosol_lut_path
 
     def get_lookup_table(self):
         # 根据指定的传感器获取查找表路径
@@ -53,6 +53,8 @@ class CommonVariable(object):
                 lut_path = r"../share" + os.sep + "sdgsat1mii"
             case 'seawifsphd':
                 lut_path = r"../share" + os.sep + "seawifsphd"
+            case "landsat8oli":
+                lut_path = r"../share" + os.sep + "landsat8oli"
             case _:
                 print("Error: Can not identify satellite sensor ID for obtaining look-up table... ")
         # if self.sensor_id == 'hy1acocts':
