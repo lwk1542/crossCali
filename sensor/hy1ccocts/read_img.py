@@ -20,7 +20,7 @@ def get(infile, blocksize: int=None)->list:
     dt = datetime.datetime.strptime(day_time, "%Y-%m-%dT%H:%M:%S")
     year, month, day, hour, minute = dt.year, dt.month, dt.day, dt.hour, dt.minute
     columns = ds.attrs["Pixels Per Scan Line"]
-    (rows, columns) = ds["Geophysical Data/DN_412"].shape
+    (rows, columns) = ds["Navigation Data/" + "Latitude"].shape
     if blocksize > rows:
         blocksize = rows
     data_Iterator = block_read.ReadIterator(infile, blocksize=blocksize, rows=rows, columns=columns)
