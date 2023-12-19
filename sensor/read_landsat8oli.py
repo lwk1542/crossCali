@@ -10,7 +10,7 @@
 import os
 import numpy as np
 import readtif
-from landsat import landsat_metadata
+from sensor.landsat8oli import landsat_metadata
 import tarfile
 
 
