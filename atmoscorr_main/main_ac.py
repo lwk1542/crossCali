@@ -270,7 +270,7 @@ class Calcu(object):
 
     def cloud_land_mask(self, rhos):
         mask, file = self.package_match()
-        mask_matrix = mask.cloud_land_mask(rhos=rhos * 1.)
+        mask_matrix = mask.cloud_land_mask(rhos=rhos.copy())
         # mask_matrix = 1.
         return mask_matrix
 
@@ -855,7 +855,7 @@ class Calcu(object):
         Returns:
             将辐亮度的单位转化为w*m-2*um-1*sr-1,符合seadas文件F0的单位
         """
-        if self.sensorID in ["olcis3a", "olcis3b"]:
+        if self.sensorID in ["olcis3a", "olcis3b", "landsat8oli"]:
             lt = lt / 10.
         else:
             lt = lt * 1.

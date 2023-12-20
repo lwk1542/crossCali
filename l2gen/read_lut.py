@@ -25,6 +25,11 @@ class CommonVariable(object):
         self.rayleigh_lut_path = None
         self.lut_path = None
         self.sensor_id = sensor_id
+        match self.sensor_id:
+            case "landsat8oli":  # 从seadas里面拷贝出来的查找表
+                self.id = "oli"
+            case _:
+                self.id = self.sensor_id
 
     def get(self):
         self.lut_path = self.get_lookup_table()
@@ -126,7 +131,7 @@ class CommonVariable(object):
         taur = []
         i_ray = []
         for i, band in enumerate(self.bands):
-            rayleigh_lut = self.rayleigh_lut_path + os.sep + 'rayleigh_' + self.sensor_id + "_" + str(int(band)) + '_iqu.hdf'
+            rayleigh_lut = self.rayleigh_lut_path + os.sep + 'rayleigh_' + self.id + "_" + str(int(band)) + '_iqu.hdf'
             rayDtset = Dataset(rayleigh_lut)
             taur.append(rayDtset.variables['taur'][:])
             i_ray.append(rayDtset.variables['i_ray'][:])
@@ -167,7 +172,7 @@ class CommonVariable(object):
 
         aerosol_models = {}
         for i in range(models.__len__()):
-            aerofile = self.aerosol_lut_path + os.sep + "aerosol_" + self.sensor_id + "_" + models[i] + "v01.hdf"
+            aerofile = self.aerosol_lut_path + os.sep + "aerosol_" + self.id + "_" + models[i] + "v01.hdf"
             aerosol_model = {'name': i}
             aero_paras = ['wave', 'scatt', 'albedo', 'extc', 'angstrom', 'phase', 'solz', 'senz', 'phi', 'acost',
                           'bcost', 'ccost', 'dtran_wave', 'dtran_theta', 'dtran_a', 'dtran_b', 'dtran_a0', 'dtran_b0']

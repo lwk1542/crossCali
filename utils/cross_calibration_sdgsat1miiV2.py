@@ -17,9 +17,9 @@ import os
 
 from utils import scene_time, esdist
 from sensor import read_img_info
-from sharepy import get_filelist, read_aerosol_seadas, mask, read_tif
+from sharepy import get_filelist, read_aerosol_seadas, read_tif
 from l2gen import atmosphericParameter, gas_transmittance, rayleigh_rad_V201, aerosol_rad, \
-    whitecap_rad, read_lut, getglint
+    whitecap_rad, read_lut, getglint, mask_crossCalibration
 
 
 class SimulationLtoa(object):
@@ -388,7 +388,7 @@ class SimulationLtoa(object):
         return tLw
 
     def geomask(self):
-        geomask = mask(sza=self.sza, saa=self.saa, vza=self.vza, vaa=self.vaa,
+        geomask = mask_crossCalibration.mask_2(sza=self.sza, saa=self.saa, vza=self.vza, vaa=self.vaa,
                        sza_ref=self.sza_ref, saa_ref=self.saa_ref, vza_ref=self.vza_ref, vaa_ref=self.vaa_ref)
         return geomask
 

@@ -26,13 +26,16 @@ def search_(path: str):
             continue
         if "_T1.tar" in subdir:  # 是压缩文件
             filedir0 = os.path.splitext(filedir)[0]
-            if not os.path.exists(filedir0):
-                os.mkdir(filedir)
-            print("解压缩...{0}".format(subdir))
-            archive = tarfile.open(filedir)
-            archive.extractall(filedir0)
-            archive.close()  # 关闭文件，必须有，释放内存
-            files.append(filedir0)
+            if filedir0 in files:  # 已经添加
+                continue
+            else:
+                if not os.path.exists(filedir0):
+                    os.mkdir(filedir)
+                print("解压缩...{0}".format(subdir))
+                archive = tarfile.open(filedir)
+                archive.extractall(filedir0)
+                archive.close()  # 关闭文件，必须有，释放内存
+                files.append(filedir0)
         else:
             pass
     return files

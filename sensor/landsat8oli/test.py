@@ -15,7 +15,7 @@ from osgeo import gdal
 def mtl(file:str):
     tree = ET.parse(file)
     root = tree.getroot()
-    PROCESSING_RECORD = root.findall('IMAGE_ATTRIBUTES')
+    PROCESSING_RECORD = root.findall('IMAGE_ATTRIBUTES')[0]
     dto_string = PROCESSING_RECORD.find('DATE_ACQUIRED').text + PROCESSING_RECORD.find('SCENE_CENTER_TIME').text
     datetime_obj = datetime.datetime.strptime(dto_string, "%Y-%m-%d%H:%M:%S.%f")
     RESCALING = root.findall("LEVEL1_RADIOMETRIC_RESCALING")
@@ -38,6 +38,6 @@ def img():
     pass
 
 if __name__ == '__main__':
-    # mtl_file = r"G:\SDGsat\calibration\sea\2023\insitu\imagery\forAeronetOC\landsat\LC08_L1TP_014032_20230410_20230420_02\LC08_L1TP_014032_20230410_20230420_02_T1_MTL.xml"
-    # mtl(file=mtl_file)
-    img()
+    mtl_file = r"G:\SDGsat\calibration\sea\2023\insitu\imagery\forAeronetOC\landsat\LC08_L1TP_014032_20230410_20230420_02_T1\LC08_L1TP_014032_20230410_20230420_02_T1_MTL.xml"
+    mtl(file=mtl_file)
+    # img()

@@ -11,21 +11,33 @@ import numpy as np
 import cv2
 
 
-def cloud_land_mask(lt, sza, F0):
+def cloud_land_mask(rhos):
     """
     """
-    (rows_, columns_) = sza.shape
-    mu = np.cos(np.deg2rad(sza)).reshape(rows_, columns_, 1)
-    rhot = np.pi * lt / F0 / mu
-    m1 = rhot[:, :, 1] > rhot[:, :, 2]
-    m2 = rhot[:, :, 2] > rhot[:, :, 3]
-    m3 = rhot[:, :, 3] > rhot[:, :, 4]
-    m4 = rhot[:, :, 4] > rhot[:, :, 5]
-    z = m1 & m2 & m3 & m4
+    (rows_, columns_) = rhos[:, :, 0].shape
+    # mu = np.cos(np.deg2rad(sza)).reshape(rows_, columns_, 1)
+    # rhot = np.pi * lt / F0 / mu
+    k = (rhos[:, :, 6]-rhos[:, :, 0])/(7-0)
+    y1 = k * (1 - 0) + rhos[:, :, 0]
+    y2 = k * (2 - 0) + rhos[:, :, 0]
+    y3 = k * (3 - 0) + rhos[:, :, 0]
+    y4 = k * (4 - 0) + rhos[:, :, 0]
+    y5 = k * (5 - 0) + rhos[:, :, 0]
+    y6 = k * (6 - 0) + rhos[:, :, 0]
+    m1 = rhos[:, :, 1] > y1
+    m2 = rhos[:, :, 2] > y2
+    m3 = rhos[:, :, 3] > y3
+    m4 = rhos[:, :, 4] > y4
+    m5 = rhos[:, :, 5] > y5
+    m6 = rhos[:, :, 6] > y6
+    z1 = m1 & m2 & m3 & m4 & m5 & m6
+    z2 = (~m1) & (~m2) & (~m3) & (~m4) & (~m5) & (~m6)
+    z3 = rhos[:, :, 4] < rhos[:, :, 5]
+    z = (z1 | z2) & z3
     for i in range(7):
-        lt[:, :, i][~z] = np.nan
-        lt[:, :, i][lt[:, :, i] > F0[0, 0, i]] = np.nan
-    ret, binary = cv2.threshold(lt[:, :, 0], 0, 255, cv2.THRESH_BINARY)
+        rhos[:, :, i][~z] = np.nan
+        # lt[:, :, i][lt[:, :, i] > F0[0, 0, i]] = np.nan
+    ret, binary = cv2.threshold(rhos[:, :, 0], 0, 255, cv2.THRESH_BINARY)
     kernel = np.ones((3, 3))
     open1 = cv2.erode(binary, kernel, iterations=2)  # 腐蚀
     open1[np.isnan(open1)] = np.nan
@@ -34,4 +46,6 @@ def cloud_land_mask(lt, sza, F0):
     open1[open1 > 260] = np.nan
     open1[~np.isnan(open1)] = 1
     # lt = lt * open1.reshape(self.rows_chunk, self.columns_chunk, 1)
-    return lt * open1.reshape(rows_, columns_, 1)
+    value = open1.reshape(rows_, columns_, 1)
+    value=1.
+    return value

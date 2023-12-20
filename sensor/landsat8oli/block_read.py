@@ -12,7 +12,7 @@ import numpy as np
 from osgeo import gdal, osr
 import osgeo
 import warnings
-import landsat_metadata
+from . import landsat_metadata
 warnings.filterwarnings("ignore")
 
 
@@ -26,10 +26,10 @@ class ReadIterator(object):
         """
         Args:
             in_file: 文件路径
-            blocksize: 一次要处理的数据的行数，默认50
+            blocksize: 一次要处理的数据的行数，例如150
         """
         self.in_file = in_file  # 文件夹
-        mtl_file = self.in_file + os.sep + os.path.basename(self.in_file) + "_MTL.txt"
+        mtl_file = self.in_file + os.sep + os.path.basename(self.in_file) + "_MTL.xml"
         self.blocksize = blocksize
         self.bands = 6
 
@@ -59,15 +59,15 @@ class ReadIterator(object):
         if self.surplus_rows == 0:
             self.iter_count -= 1
 
-        band_list = ["B1.TIF", "B2.TIF", "B3.TIF", "B4.TIF", "B5.TIF", "B6.TIF"]
+        band_list = ["B1.TIF", "B2.TIF", "B3.TIF", "B4.TIF", "B5.TIF", "B6.TIF", "B7.TIF"]
         self.files = []
         for i, band in enumerate(band_list):
-            self.files.append(mtl_file.replace("MTL.txt", band))
+            self.files.append(mtl_file.replace("MTL.xml", band))
 
-        band_list2 = ["VAA", "VZA", "SAA", "SZA"]
+        band_list2 = ["VAA.TIF", "VZA.TIF", "SAA.TIF", "SZA.TIF"]
         self.geofiles = []
         for i, band in enumerate(band_list2):
-            self.geofiles.append(mtl_file.replace("MTL.txt", band))
+            self.geofiles.append(mtl_file.replace("MTL.xml", band))
 
         print("imagery info:rows={0},columns={1},bands={2},block_rows={3},surplus_rows={4}".
               format(self.YSize, self.XSize, self.bands, self.blocksize, self.surplus_rows))
@@ -101,13 +101,13 @@ class ReadIterator(object):
             ct = osr.CoordinateTransformation(self.prosrs, self.geosrs)
             coords = np.array(ct.TransformPoints(np.vstack([lon_.flatten(), lat_.flatten()]).T))
             lat, lon = coords[:, 1].reshape(lat_.shape), coords[:, 0].reshape(lat_.shape)
-            vaa = gdal.Open(self.geofiles[0]).ReadAsArray(0, self.lag, self.XSize, y_offset) * 1.
-            vza = gdal.Open(self.geofiles[1]).ReadAsArray(0, self.lag, self.XSize, y_offset) * 1.
-            saa = gdal.Open(self.geofiles[2]).ReadAsArray(0, self.lag, self.XSize, y_offset) * 1.
-            sza = gdal.Open(self.geofiles[3]).ReadAsArray(0, self.lag, self.XSize, y_offset) * 1.
+            vaa = gdal.Open(self.geofiles[0]).ReadAsArray(0, self.lag, self.XSize, y_offset) * .01
+            vza = gdal.Open(self.geofiles[1]).ReadAsArray(0, self.lag, self.XSize, y_offset) * .01
+            saa = gdal.Open(self.geofiles[2]).ReadAsArray(0, self.lag, self.XSize, y_offset) * .01
+            sza = gdal.Open(self.geofiles[3]).ReadAsArray(0, self.lag, self.XSize, y_offset) * .01
             self.iter_num += 1
             self.lag = self.iter_num * y_offset
-            return data, self.gains, self.offsets, lon, lat, vaa, vza, saa, sza
+            return data, np.array(self.gains), np.array(self.offsets), lon, lat, vaa, vza, saa, sza
         else:
             raise StopIteration()  # 表示至此停止迭代
 

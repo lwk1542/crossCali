@@ -169,8 +169,9 @@ def get(infile=None, sensor_id=None, block_size: int = None):
         if all(idx in os.path.basename(infile) for idx in ["FY3D_MERSI_GBAL_L1_", "_1000M_MS.HDF"]):  # 数据级别
             print("from sensor.fy3dmersi import read_img")
             from sensor.fy3dmersi import read_img
-    elif sensor_id == 'lc08oli':
-        pass
+    elif sensor_id == 'landsat8oli':
+        print("from sensor.landsat8oli import read_img")
+        from sensor.landsat8oli import read_img
     elif sensor_id == 'modist':
         pass
     elif sensor_id == 'modisa':
@@ -178,6 +179,7 @@ def get(infile=None, sensor_id=None, block_size: int = None):
     elif sensor_id == 'seawifsphd':
         pass
     else:
+        IOError
         print("no sensor ID, read_img_info.py")
         return None
     image_info = read_img.get(infile, block_size)

@@ -9,23 +9,21 @@
 """
 import os
 from . import block_read
+from . import landsat_metadata
 import warnings
 warnings.filterwarnings("ignore")
-import landsat_metadata
-
 
 def meta_xml(file):
-    datetime_obj, gains, offsets,rows, columns = landsat_metadata.mtl(file=file)
-    datetime = datetime_obj.strftime("%Y-%m-%dT%H:%M:%S.%f")  # 2023-04-10T15:39:26.2045389Z
+    datetime_obj, gains, offsets, rows, columns = landsat_metadata.mtl(file=file)
+    datetime = datetime_obj.strftime("%Y-%m-%dT%H:%M:%S.%f")  # 2023-04-10T15:39:26.20453
     year, month, day, hour, minute, second = \
-        int(datetime[0:4]), int(datetime[5:7]), int(datetime[8:10]), int(datetime[12:14]), int(datetime[16:18]),
-    float(datetime[20:])
+        int(datetime[0:4]), int(datetime[5:7]), int(datetime[8:10]), int(datetime[11:13]), int(datetime[14:16]), float(datetime[17:])
 
     return year, month, day, hour, minute, columns, rows
 
 
 def get(infile, blocksize=None):
-    meta_file_path = infile + os.sep + os.path.basename(infile) + "_MTL.txt"
+    meta_file_path = infile + os.sep + os.path.basename(infile) + "_MTL.xml"
     year, month, day, hour, minute, columns, rows = meta_xml(meta_file_path)
 
     data_Iterator = block_read.ReadIterator(infile, blocksize=blocksize, rows=rows, columns=columns)
