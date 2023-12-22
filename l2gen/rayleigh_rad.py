@@ -44,7 +44,7 @@ def rayleigh(rayleigh_lut_path=None, sza=None, vza=None, saa=None, vaa=None,reaa
     airmass = 1 / mu0 + 1 / mu
 
     rayleigh_lut = general.get_filelist(rayleigh_lut_path, 'rayleigh', 'iqu.hdf')
-    print(rayleigh_lut)
+    # print(rayleigh_lut)
     Taur = np.zeros(shape=(rayleigh_lut.__len__()))
     Lr_i = np.zeros(shape=(sza.shape[0], sza.shape[1], rayleigh_lut.__len__()))
 
