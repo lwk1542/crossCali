@@ -41,8 +41,8 @@ class CommonVariable(object):
         rayleigh_lut_info = self.read_rayleigh_lut()
         aerosol_lut_info = self.read_aerosol_lut()
         print("successfully loaded sensor info and look-up table...")
-        return sensor_info, rayleigh_lut_info,  aerosol_lut_info
-        # return sensor_info, self.rayleigh_lut_path, self.aerosol_lut_path
+        # return sensor_info, rayleigh_lut_info,  aerosol_lut_info
+        return sensor_info, self.rayleigh_lut_path, self.aerosol_lut_path
 
     def get_lookup_table(self):
         # 根据指定的传感器获取查找表路径
