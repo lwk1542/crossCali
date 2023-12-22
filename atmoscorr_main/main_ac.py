@@ -16,7 +16,7 @@ from utils import esdist, resize
 from sensor import read_img_info
 from utils import outfile_setting as output
 from l2gen import atmosphericParameter, gas_transmittance, get_rhown_nir, whitecap_rad, get_chl, read_lut, getglint, \
-    brdf, aerosol_radV2, rayleigh_rad, rayleigh_rad_V201, aerosol_rad, predefine
+    brdf, aerosol_radV2, rayleigh_rad, rayleigh_rad_V201, aerosol_rad, predefine, ray_rad_idl
 
 
 class Calcu(object):
@@ -285,8 +285,8 @@ class Calcu(object):
          self.num_670, self.nirs_num, self.nirl_num, self.nwvis, self.red, self.rows_img, self.columns_img) = image_info
 
         date = datetime.datetime.strptime(str(self.year) + str(self.month) + str(self.day), "%Y%m%d")
-        doy = int(date.strftime("%j"))
-        self.fsol = esdist(doy)
+        self.doy = int(date.strftime("%j"))
+        self.fsol = esdist(self.doy)
         self.FoBAR = self.Fo * self.fsol
         self.Fo_ = self.FoBAR.reshape((1, 1, -1))
         print("correcting coefficient of solar-earth distance: " + str(self.fsol)[0:5])
@@ -318,12 +318,21 @@ class Calcu(object):
     def rayleigh(self):
         # 6. 移除瑞利贡献
         # print("computing rayleigh scattering radaince...")
-        lr = rayleigh_rad_V201.rayleigh(raylut_info=self.rayleigh_lut_info, sza=self.sza,
-                                        vza=self.vza, saa=self.saa, vaa=self.vaa,
-                                        F0=self.FoBAR, windspeed=self.wind_speed,
-                                        pressure=self.pressure)
+        # lr = rayleigh_rad_V201.rayleigh(raylut_info=self.rayleigh_lut_info, sza=self.sza,
+        #                                 vza=self.vza, saa=self.saa, vaa=self.vaa,
+        #                                 F0=self.FoBAR, windspeed=self.wind_speed,
+        #                                 pressure=self.pressure)
         # lr = rayleigh_rad.rayleigh(rayleigh_lut_path=self.rayleigh_lut_info, sza=self.sza, vza=self.vza, saa=self.saa,
         #                            vaa=self.vaa, F0=self.FoBAR, windspeed=self.wind_speed, pressure=self.pressure)
+        (rows, columns) = self.sza.shape
+        for i, _ in enumerate(self.bands):
+            value_ = ray_rad_idl.ray_rad(press=self.pressure, sza=self.sza, vza=self.vza, phi=self.saa - self.vaa,
+                                         wavelength=self.bands[i], ns=columns, nl=rows,
+                             doy=self.doy, rayleigh_lut_path=self.rayleigh_lut_info, F0=self.Fo, lambdas=self.bands)
+            if i == 0:
+                lr = value_
+            else:
+                lr = np.dstack([lr, value_])
 
         scaleRayleigh = 1.0 - np.exp(-self.sensor_alt / 10)
         self.lr = lr * scaleRayleigh
@@ -885,7 +894,7 @@ class Calcu(object):
         # kernel = np.ones((3, 3, 1), dtype=np.uint8)
         # dilated_array = cv2.dilate(array, kernel, 2)
         # smoothed_array = generic_filter(dilated_array, np.nanmean, mode="nearest", size=window_size)
-        smoothed_array=array
+        smoothed_array = array
         return smoothed_array
 
 

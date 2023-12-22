@@ -23,3 +23,4 @@ from .rot import *
 from .water_vapor import *
 from .whitecap_rad import *
 from .mask_crossCalibration import *
+from .ray_rad_idl import *
