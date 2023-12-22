@@ -9,7 +9,7 @@
 """
 
 
-def get_filelist(idx: list[str], path: str = None, mode='all'):
+def get_filelist(idx: list[str], path: str , mode='all'):
     """
     输入父目录和至少一个能够指示文件名的字符串，比如‘.hdf’等
     Args:
