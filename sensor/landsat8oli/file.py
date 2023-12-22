@@ -30,7 +30,7 @@ def search_(path: str):
                 continue
             else:
                 if not os.path.exists(filedir0):
-                    os.mkdir(filedir)
+                    os.mkdir(filedir0)
                 print("解压缩...{0}".format(subdir))
                 archive = tarfile.open(filedir)
                 archive.extractall(filedir0)
