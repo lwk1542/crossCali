@@ -11,12 +11,11 @@ import numpy as np
 import datetime
 import os
 import gc
-import cv2
 from utils import esdist, resize
 from sensor import read_img_info
 from utils import outfile_setting as output
 from l2gen import atmosphericParameter, gas_transmittance, get_rhown_nir, whitecap_rad, get_chl, read_lut, getglint, \
-    brdf, aerosol_radV2, rayleigh_rad, rayleigh_rad_V201, aerosol_rad, predefine, ray_rad_idl
+    brdf, aerosol_rad, predefine, ray_rad_idl
 
 
 class Calcu(object):
@@ -124,10 +123,11 @@ class Calcu(object):
             for self.block_num, d_i_temp in enumerate(data_Iterator):  # 每个传感器的迭代器数据内容可能不一样，针对性处理
                 (data, gains, offsets, self.lon, self.lat, self.vaa, self.vza, self.saa, self.sza) = d_i_temp
                 Lt = (data * gains.reshape((1, 1, -1)) * 1. + offsets.reshape((1, 1, -1)))
+                del data
                 self.Lt = self.unit(Lt)  # w/m-2
                 (self.rows_chunk, self.columns_chunk) = Lt[:, :, 0].shape
                 # self.Lt = self.cloud_land_mask(lt=Lt)
-                del Lt, data, gains, offsets
+                del Lt, gains, offsets
                 gc.collect()
                 print("==========================processing {}~{} lines=================================".format(
                     self.block_size_rows * self.block_num, self.block_size_rows * self.block_num + self.rows_chunk))
@@ -270,8 +270,8 @@ class Calcu(object):
 
     def cloud_land_mask(self, rhos):
         mask, file = self.package_match()
-        mask_matrix = mask.cloud_land_mask(rhos=rhos.copy())
-        # mask_matrix = 1.
+        # mask_matrix = mask.cloud_land_mask(rhos=rhos.copy())
+        mask_matrix = 1.
         return mask_matrix
 
     def get_img_info(self, infile):
@@ -318,21 +318,9 @@ class Calcu(object):
     def rayleigh(self):
         # 6. 移除瑞利贡献
         # print("computing rayleigh scattering radaince...")
-        # lr = rayleigh_rad_V201.rayleigh(raylut_info=self.rayleigh_lut_info, sza=self.sza,
-        #                                 vza=self.vza, saa=self.saa, vaa=self.vaa,
-        #                                 F0=self.FoBAR, windspeed=self.wind_speed,
-        #                                 pressure=self.pressure)
-        # lr = rayleigh_rad.rayleigh(rayleigh_lut_path=self.rayleigh_lut_info, sza=self.sza, vza=self.vza, saa=self.saa,
-        #                            vaa=self.vaa, F0=self.FoBAR, windspeed=self.wind_speed, pressure=self.pressure)
-        (rows, columns) = self.sza.shape
-        for i, _ in enumerate(self.bands):
-            value_ = ray_rad_idl.ray_rad(press=self.pressure, sza=self.sza, vza=self.vza, phi=self.saa - self.vaa,
-                                         wavelength=self.bands[i], ns=columns, nl=rows,
-                             doy=self.doy, rayleigh_lut_path=self.rayleigh_lut_info, F0=self.Fo, lambdas=self.bands)
-            if i == 0:
-                lr = value_
-            else:
-                lr = np.dstack([lr, value_])
+        lr = ray_rad_idl.ray_rad(press=self.pressure, sza=self.sza, vza=self.vza, saa=self.saa, vaa=self.vaa,
+                                 windspeed=self.wind_speed, doy=self.doy, rayleigh_infos=self.rayleigh_lut_info,
+                                 F0=self.Fo, bands=self.bands)
 
         scaleRayleigh = 1.0 - np.exp(-self.sensor_alt / 10)
         self.lr = lr * scaleRayleigh
@@ -853,7 +841,7 @@ class Calcu(object):
         return self.taur, self.tg_sol, self.tg_sen
 
     def out_varable(self):
-        name_id = os.path.basename(self.infile).split(".")[0]
+        name_id = ".".join(os.path.basename(self.infile).split(".")[0:-1])
         outfile = os.path.dirname(self.infile) + os.sep + name_id + "_L2.H5"
         self.ds, self.navi_group, self.geo_group = output.create(outfile=outfile)
 
