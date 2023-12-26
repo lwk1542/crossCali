@@ -14,7 +14,7 @@ def search_(path: str):
     subdirs = os.listdir(path)
     files = []
     for subdir in subdirs:
-        _ = path + os.sep + subdir+os.sep+subdir+"_B.tif"
+        _ = path + os.sep + subdir+os.sep+subdir+"_ROI.tif"
         # "A相机大部分处于耀光范围内，干脆不要了"
         if os.path.exists(_):
             files.append(_)

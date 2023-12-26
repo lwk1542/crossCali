@@ -28,31 +28,32 @@ class ReadIterator(object):
             in_file: 文件路径
             blocksize: 一次要处理的数据的行数，例如150
         """
-        self.in_file = in_file  # 文件夹
-        mtl_file = self.in_file + os.sep + os.path.basename(self.in_file) + "_MTL.xml"
+        # self.in_file = in_file  # 文件夹
+        mtl_file =in_file + os.sep + os.path.basename(in_file) + "_MTL.xml"
         self.blocksize = blocksize
         self.bands = 6
 
-        tif_file = self.in_file + os.sep + os.path.basename(self.in_file) + "_B1.TIF"
-        self.dataset = gdal.Open(tif_file)
-        self.XSize = self.dataset.RasterXSize  # 网格的X轴像素数量
-        self.YSize = self.dataset.RasterYSize  # 网格的Y轴像素数量
-        self.GeoTransform = self.dataset.GetGeoTransform()  # 投影转换信息
-        self.ProjectionInfo = self.dataset.GetProjection()
+        tif_file = in_file + os.sep + os.path.basename(in_file) + "_B1.TIF"
+        dataset = gdal.Open(tif_file)
+        # self.XSize = self.dataset.RasterXSize  # 网格的X轴像素数量
+        # self.YSize = self.dataset.RasterYSize  # 网格的Y轴像素数量
+        self.GeoTransform = dataset.GetGeoTransform()  # 投影转换信息
+        self.ProjectionInfo = dataset.GetProjection()
 
-        datetime_obj, self.gains,  self.offsets,  self.rows,  self.columns = landsat_metadata.mtl(file=mtl_file)
+        datetime_obj, self.gains,  self.offsets, self.YSize, self.XSize = landsat_metadata.mtl(file=mtl_file)
         datetime = datetime_obj.strftime("%Y-%m-%dT%H:%M:%S.%f")  # 2023-04-10T15:39:26.2045389Z
         self.year, self.month, self.day, self.hour, self.minute, self.second = \
             datetime[0:4], datetime[5:7], datetime[8:10], datetime[12:14], datetime[16:18], datetime[20:]
 
         # 投影转经纬度坐标
-        self.prosrs = osr.SpatialReference()
+        prosrs = osr.SpatialReference()
         if int(osgeo.__version__[0]) >= 3:
             # GDAL 3 changes axis order: https://github.com/OSGeo/gdal/issues/1546
-            self.prosrs.SetAxisMappingStrategy(osgeo.osr.OAMS_TRADITIONAL_GIS_ORDER)
+            prosrs.SetAxisMappingStrategy(osgeo.osr.OAMS_TRADITIONAL_GIS_ORDER)
 
-        self.prosrs.ImportFromWkt(self.dataset.GetProjection())
-        self.geosrs = self.prosrs.CloneGeogCS()
+        prosrs.ImportFromWkt(dataset.GetProjection())
+        geosrs = prosrs.CloneGeogCS()
+        self.ct = osr.CoordinateTransformation(prosrs, geosrs)
 
         self.iter_count = self.YSize // self.blocksize
         self.surplus_rows = self.YSize % self.blocksize
@@ -74,6 +75,7 @@ class ReadIterator(object):
         # print(" this imagery will loop {0} times".format(self.iter_count))
         self.iter_num = 0
         self.lag = 0
+        del band_list, band_list2, dataset
 
     def __iter__(self):
         return self
@@ -84,13 +86,9 @@ class ReadIterator(object):
                 y_offset = self.surplus_rows
             else:
                 y_offset = self.blocksize
+            data = np.empty(shape=(y_offset, self.XSize, self.files.__len__()))
             for i, file in enumerate(self.files):
-                ds = gdal.Open(file)
-                _ = ds.ReadAsArray(0, self.lag, self.XSize, y_offset)*1.
-                if i == 0:
-                    data = _
-                else:
-                    data = np.dstack([data, _])
+                data[:, :, i] = gdal.Open(file).ReadAsArray(0, self.lag, self.XSize, y_offset)*1.
             data[data == 0] = np.nan
             x_range = range(0, self.XSize)
             y_range = range(0, y_offset)
@@ -98,8 +96,7 @@ class ReadIterator(object):
             lon_ = self.GeoTransform[0] + x * self.GeoTransform[1] + y * self.GeoTransform[2]
             lat_ = (self.GeoTransform[3] + self.iter_num * self.blocksize * self.GeoTransform[5]) + \
                    x * self.GeoTransform[4] + y * self.GeoTransform[5]
-            ct = osr.CoordinateTransformation(self.prosrs, self.geosrs)
-            coords = np.array(ct.TransformPoints(np.vstack([lon_.flatten(), lat_.flatten()]).T))
+            coords = np.array(self.ct.TransformPoints(np.vstack([lon_.flatten(), lat_.flatten()]).T))
             lat, lon = coords[:, 1].reshape(lat_.shape), coords[:, 0].reshape(lat_.shape)
             vaa = gdal.Open(self.geofiles[0]).ReadAsArray(0, self.lag, self.XSize, y_offset) * .01
             vza = gdal.Open(self.geofiles[1]).ReadAsArray(0, self.lag, self.XSize, y_offset) * .01

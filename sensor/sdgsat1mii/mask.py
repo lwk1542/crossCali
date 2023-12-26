@@ -11,21 +11,21 @@ import numpy as np
 import cv2
 
 
-def cloud_land_mask(lt, sza, F0):
+def cloud_land_mask(rhos):
     """
     """
-    (rows_, columns_) = sza.shape
-    mu = np.cos(np.deg2rad(sza)).reshape(rows_, columns_, 1)
-    rhot = np.pi * lt / F0 / mu
-    m1 = rhot[:, :, 1] > rhot[:, :, 2]
-    m2 = rhot[:, :, 2] > rhot[:, :, 3]
-    m3 = rhot[:, :, 3] > rhot[:, :, 4]
-    m4 = rhot[:, :, 4] > rhot[:, :, 5]
-    m5 = rhot[:, :, 5] > rhot[:, :, 6]
+    # (rows_, columns_) = sza.shape
+    # mu = np.cos(np.deg2rad(sza)).reshape(rows_, columns_, 1)
+    # rhot = np.pi * lt / F0 / mu
+    m1 = rhos[:, :, 1] > rhos[:, :, 2]
+    m2 = rhos[:, :, 2] > rhos[:, :, 3]
+    m3 = rhos[:, :, 3] > rhos[:, :, 4]
+    m4 = rhos[:, :, 4] > rhos[:, :, 5]
+    m5 = rhos[:, :, 5] > rhos[:, :, 6]
     z = m1 & m2 & m3 & m4 & m5
-    for i in range(7):
-        lt[:, :, i][~z] = np.nan
-        lt[:, :, i][lt[:, :, i] > F0[0, 0, i]] = np.nan
+    # for i in range(7):
+    #     lt[:, :, i][~z] = np.nan
+    #     lt[:, :, i][lt[:, :, i] > F0[0, 0, i]] = np.nan
     ret, binary = cv2.threshold(lt[:, :, 0], 0, 255, cv2.THRESH_BINARY)
     kernel = np.ones((3, 3))
     open1 = cv2.erode(binary, kernel, iterations=2)  # 腐蚀
