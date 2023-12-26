@@ -36,14 +36,14 @@ def matchup(txtfile: str) -> dict:
 if __name__ == '__main__':
     from sensor import sdgsat1mii
 
-    father_dir = r"G:\SDGsat\calibration\sea\2023\validation\turbid"
+    father_dir = r"G:\SDGsat\calibration\sea\2023\calibration\process"
     target_path = father_dir + os.sep + "target"
     subdirs = os.listdir(target_path)
     print("total {} images:".format(subdirs.__len__()), subdirs)
     Scopefile = r"G:\SDGsat\calibration\sea\2023/download_log.txt"
     match_dic = matchup(txtfile=Scopefile)
     for i, key in enumerate(match_dic.keys()):
-        filedir = target_path + os.sep + key
+        filedir = target_path + os.sep + key+"/"
         if not os.path.isdir(filedir):
             continue
         if ("KX10_MII_" not in key) or ("L4B" not in key):
@@ -54,7 +54,7 @@ if __name__ == '__main__':
         for j, _ in enumerate(match_dic[key]):
             if _.__len__() < 5:
                 continue
-            id_ = ".".join(_.split(".")[:-1]) + ".SEN3_seadas_L2.hdf"
+            id_ = ".".join(_.split(".")[:-1]) + ".SEN3_seadas_rrs.hdf"
             print("================******第{}个参考文件******==============".format(j, id_))
             reference_file = father_dir + os.sep + "reference" + os.sep + id_
             simulate = cross_calibration_sdgsat1miiv3.SimulationLtoa(target_file=target_file,
