@@ -15,11 +15,11 @@ path=r"E:\XDA\fy3dmersi"
 sensorids = ["fy3dmersi", "hy1ccocts", "hy1dcocts"]
 sdgsat1mii_para = {"block_size_rows": 150, "rrs_out": False, "sensorid": "sdgsat1mii", "rrc_out": True,
                    "filespath":r"G:\SDGsat\calibration\sea\2023\validation\turbid\target"}
-hy1ccocts_para = {"block_size_rows": 5000, "rrs_out": True, "sensorid": "hy1ccocts", "rrc_out": True,
+hy1ccocts_para = {"block_size_rows": 150, "rrs_out": False, "sensorid": "hy1ccocts", "rrc_out": True,
                    "filespath":r"G:\SDGsat\calibration\sea\2023\validation\turbid\comp"}
-landsat8oli_para = {"block_size_rows": 150, "rrs_out": False, "sensorid": "landsat8oli", "rrc_out": True,
+landsat8oli_para = {"block_size_rows": 50, "rrs_out": False, "sensorid": "landsat8oli", "rrc_out": True,
                     "filespath": r"G:\test\landsat"}
-para = landsat8oli_para
+para = sdgsat1mii_para
 
 ac = main_ac.Calcu(filespath=para["filespath"],
                    sensorid=para["sensorid"],
