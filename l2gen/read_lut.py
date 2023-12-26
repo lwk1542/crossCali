@@ -41,8 +41,8 @@ class CommonVariable(object):
         rayleigh_lut_info = self.read_rayleigh_lut()
         aerosol_lut_info = self.read_aerosol_lut()
         print("successfully loaded sensor info and look-up table...")
-        # return sensor_info, rayleigh_lut_info,  aerosol_lut_info
-        return sensor_info, self.rayleigh_lut_path, self.aerosol_lut_path
+        return sensor_info, rayleigh_lut_info,  aerosol_lut_info
+        # return sensor_info, self.rayleigh_lut_path, self.aerosol_lut_path
 
     def get_lookup_table(self):
         # 根据指定的传感器获取查找表路径
@@ -128,32 +128,26 @@ class CommonVariable(object):
                np.array(wed), np.array(waph)]
 
     def read_rayleigh_lut(self):
-        taur = []
-        i_ray = []
+        lut_dict={}
         for i, band in enumerate(self.bands):
+            data_dict = {}
             rayleigh_lut = self.rayleigh_lut_path + os.sep + 'rayleigh_' + self.id + "_" + str(int(band)) + '_iqu.hdf'
             rayDtset = Dataset(rayleigh_lut)
-            taur.append(rayDtset.variables['taur'][:])
-            i_ray.append(rayDtset.variables['i_ray'][:])
             # q_ray = rayDtset.variables['q_ray'][:]
             # u_ray = rayDtset.variables['u_ray'][:]
-            if i == 0:
-                # depol = rayDtset.variables['depol'][:]
-                senz = rayDtset.variables['senz'][:]
-                solz = rayDtset.variables['solz'][:]
-                try:
-                    sigma = rayDtset.variables['sigma'][:]
-                except:
-                    wind_speed = rayDtset.variables['wind'][:]
-                    sigma = np.sqrt(0.00534 * wind_speed)
-
-        data_dict = {}
-        data_dict["taur"] = np.array(taur).reshape(-1)
-        data_dict["senz"] = np.array(senz)
-        data_dict["solz"] = np.array(solz)
-        data_dict["sigma"] = np.array(sigma)
-        data_dict["i_ray"] = np.array(i_ray)
-        return data_dict
+            try:
+                sigma = rayDtset.variables['sigma'][:]
+            except:
+                wind_speed = rayDtset.variables['wind'][:]
+                sigma = np.sqrt(0.00534 * wind_speed)
+            data_dict["taur"] = np.array(rayDtset.variables['taur'][:]).reshape(-1)
+            data_dict["depol"] = np.array(rayDtset.variables['depol'][:]).reshape(-1)
+            data_dict["senz"] = np.array(rayDtset.variables['senz'][:])
+            data_dict["solz"] = np.array(rayDtset.variables['solz'][:])
+            data_dict["sigma"] = np.array(sigma)
+            data_dict["i_ray"] = np.array(rayDtset.variables['i_ray'][:])
+            lut_dict[str(int(band))] = data_dict
+        return lut_dict
 
     def read_aerosol_lut(self):
         # loads the entire aerosol model table for the specified model list
@@ -173,7 +167,8 @@ class CommonVariable(object):
         aerosol_models = {}
         for i in range(models.__len__()):
             aerofile = self.aerosol_lut_path + os.sep + "aerosol_" + self.id + "_" + models[i] + "v01.hdf"
-            aerosol_model = {'name': i}
+            aerosol_model = {}
+            aerosol_model['name'] = i
             aero_paras = ['wave', 'scatt', 'albedo', 'extc', 'angstrom', 'phase', 'solz', 'senz', 'phi', 'acost',
                           'bcost', 'ccost', 'dtran_wave', 'dtran_theta', 'dtran_a', 'dtran_b', 'dtran_a0', 'dtran_b0']
             try:

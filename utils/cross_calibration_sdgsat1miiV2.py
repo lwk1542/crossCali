@@ -248,8 +248,8 @@ class SimulationLtoa(object):
          self.nwvis, self.red) = image_info
 
         date = datetime.datetime.strptime(str(self.year) + str(self.month) + str(self.day), "%Y%m%d")
-        doy = int(date.strftime("%j"))
-        self.fsol = esdist(doy)
+        self.doy = int(date.strftime("%j"))
+        self.fsol = esdist(self.doy)
         self.FoBAR = self.Fo * self.fsol
         self.Fo_ = self.FoBAR.reshape((1, 1, -1))
         print("correcting coefficient of solar-earth distance: " + str(self.fsol)[0:5])

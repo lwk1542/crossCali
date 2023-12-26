@@ -17,9 +17,9 @@ import os
 
 from utils import scene_time, esdist
 from sensor import read_img_info
-from sharepy import get_filelist, read_aerosol_seadas, mask, read_tif
-from l2gen import atmosphericParameter, gas_transmittance, rayleigh_rad_V201, aerosol_rad, \
-    whitecap_rad, read_lut, getglint
+from sharepy import read_aerosol_seadas, read_tif
+from l2gen import atmosphericParameter, gas_transmittance, aerosol_rad, mask_crossCalibration,\
+    whitecap_rad, read_lut, getglint,  ray_rad_idl
 
 
 class SimulationLtoa(object):
@@ -279,10 +279,9 @@ class SimulationLtoa(object):
         (self.data_Iterator, self.year, self.month, self.day, self.num_443, self.num_490, self.num_520, self.num_555,
          self.num_670, self.nirs_num, self.nirl_num, self.nwvis, self.red, self.rows_img, self.columns_img) = image_info
 
-
         date = datetime.datetime.strptime(str(self.year) + str(self.month) + str(self.day), "%Y%m%d")
-        doy = int(date.strftime("%j"))
-        self.fsol = esdist(doy)
+        self.doy = int(date.strftime("%j"))
+        self.fsol = esdist(self.doy)
         self.FoBAR = self.Fo * self.fsol
         self.Fo_ = self.FoBAR.reshape((1, 1, -1))
         print("correcting coefficient of solar-earth distance: " + str(self.fsol)[0:5])
@@ -334,11 +333,10 @@ class SimulationLtoa(object):
     def rayleigh(self):
         # 6. 移除瑞利贡献
         # print("computing rayleigh scattering radaince...")
-        lr = rayleigh_rad_V201.rayleigh(raylut_info=self.rayleigh_lut_info, sza=self.sza,
-                                        vza=self.vza, saa=self.saa, vaa=self.vaa,
-                                        F0=self.FoBAR, windspeed=self.winds_peed,
-                                        pressure=self.pressure)
 
+        lr = ray_rad_idl.ray_rad(press=self.pressure, sza=self.sza, vza=self.vza, saa=self.saa, vaa=self.vaa,
+                                 windspeed=self.winds_peed, doy=self.doy, rayleigh_infos=self.rayleigh_lut_info,
+                                 F0=self.Fo, bands=self.bands)
 
         scaleRayleigh = 1.0 - np.exp(-self.sensor_alt / 10)
         lr = lr * scaleRayleigh
@@ -419,12 +417,13 @@ class SimulationLtoa(object):
         return tLw
 
     def geomask(self):
-        geomask = mask(sza=self.sza, saa=self.saa, vza=self.vza, vaa=self.vaa,
-                       sza_ref=self.sza_ref, saa_ref=self.saa_ref, vza_ref=self.vza_ref, vaa_ref=self.vaa_ref)
+        geomask = mask_crossCalibration.mask_2(sza=self.sza, saa=self.saa, vza=self.vza, vaa=self.vaa,
+                                               sza_ref=self.sza_ref, saa_ref=self.saa_ref, vza_ref=self.vza_ref,
+                                               vaa_ref=self.vaa_ref)
         return geomask
 
     def output(self) -> str:
-        outfile=self.outfile
+        outfile = self.outfile
         if os.path.exists(outfile):
             os.remove(outfile)
         print(">>>>>>>>>>>>生成的交叉定标文件:{}".format(os.path.basename(outfile)))

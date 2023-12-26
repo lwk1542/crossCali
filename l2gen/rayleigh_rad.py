@@ -7,6 +7,7 @@
 @time: 2021/1/22 14:28
 @desc: 非吸收性气体(瑞利散射)
 """
+import os.path
 
 import numpy as np
 from netCDF4 import Dataset
@@ -15,9 +16,15 @@ from scipy import interpolate
 from l2gen import general
 
 
+def normalization(data1, data2):
+    _range=np.max(data1)-np.min(data1)
+    return (data1-np.min(data1))/_range, (data2-np.min(data1))/_range
+
+
 def rayleigh(rayleigh_lut_path=None, sza=None, vza=None, saa=None, vaa=None,reaa=None, windspeed=None,
              pressure=None, F0=None):
     """
+    这种插值方法获取的结果与seadas严重不一致
     Args:
         rayleigh_lut_path (): 瑞利散射查找表路径
         sza (): 太阳天顶角
@@ -43,12 +50,20 @@ def rayleigh(rayleigh_lut_path=None, sza=None, vza=None, saa=None, vaa=None,reaa
     mu = np.cos(vza / 180 * np.pi)
     airmass = 1 / mu0 + 1 / mu
 
-    rayleigh_lut = general.get_filelist(rayleigh_lut_path, 'rayleigh', 'iqu.hdf')
+    rayleigh_lut = general.get_filelist(rayleigh_lut_path, 'rayleigh', 'iqu.hdf')  # 波长顺序不对
     # print(rayleigh_lut)
     Taur = np.zeros(shape=(rayleigh_lut.__len__()))
     Lr_i = np.zeros(shape=(sza.shape[0], sza.shape[1], rayleigh_lut.__len__()))
 
+    # 归一化，避免插值误差
+    # p0 = 1013.25  # 单位hpa   百帕
+    # pp0 = pressure / p0
+    # pp0[pp0 < 0.] = 1.
+    # tauray = pp0[:, :] * taur
+    # fac = (1. - np.exp(-tauray / np.cos(np.pi * vza / 180))) / (1. - np.exp((-taur / np.cos(np.pi * vza / 180))))
+
     for i in range(rayleigh_lut.__len__()):
+        print(os.path.basename(rayleigh_lut[i]))
         rayDtset = Dataset(rayleigh_lut[i])
         taur = rayDtset.variables['taur'][:]
         # depol = rayDtset.variables['depol'][:]
@@ -56,6 +71,7 @@ def rayleigh(rayleigh_lut_path=None, sza=None, vza=None, saa=None, vaa=None,reaa
         solz = rayDtset.variables['solz'][:]
         try:
             wind = rayDtset.variables['wind'][:]
+            wind = 0.0731 * np.sqrt(wind)
             wind_inter_index = 0
         except:
             wind = rayDtset.variables['sigma'][:]
@@ -74,6 +90,12 @@ def rayleigh(rayleigh_lut_path=None, sza=None, vza=None, saa=None, vaa=None,reaa
         if wind_inter_index == 1:
             windspeed = 0.0731 * np.sqrt(windspeed)
         windspeed[windspeed > np.max(wind)] = np.max(wind)
+
+        wind, windspeed = normalization(wind, windspeed)
+        windspeed=windspeed*0.
+        solz, sza = normalization(solz, sza)
+        senz, vza = normalization(senz, vza)
+
         ray_i0 = interpolate.interpn(
             (wind.reshape(-1), solz.reshape(-1), np.arange(3).reshape(-1), senz.reshape(-1)), i_ray,
             np.stack([windspeed, sza, Norder0, vza], axis=2), method='linear')
@@ -84,7 +106,7 @@ def rayleigh(rayleigh_lut_path=None, sza=None, vza=None, saa=None, vaa=None,reaa
             (wind.reshape(-1), solz.reshape(-1), np.arange(3).reshape(-1), senz.reshape(-1)), i_ray,
             np.stack([windspeed, sza, Norder2, vza], axis=2), method='linear')
         #  L (l,h ,h,Dw)=L(0)(l,h ,h)+2 SIGMA L(m)(l,h ,h)cosmDw
-        ray_i = ray_i0 + ray_i1 * np.cos(reaa / 180 * np.pi) + ray_i2 * np.cos(2 * reaa / 180 * np.pi)
+        # ray_i = ray_i0 + ray_i1 * np.cos(reaa / 180 * np.pi) + ray_i2 * np.cos(2 * reaa / 180 * np.pi)
         # # Q 分量
         # ray_q0 = interpolate.interpn(
         #     (wind.reshape(-1), solz.reshape(-1), np.arange(3).reshape(-1), senz.reshape(-1)), q_ray,
@@ -112,9 +134,20 @@ def rayleigh(rayleigh_lut_path=None, sza=None, vza=None, saa=None, vaa=None,reaa
         # ray_u = ray_u0 + ray_u1 * np.cos(reaa / 180 * np.pi) + ray_u2 * np.cos(2 * reaa / 180 * np.pi)
 
         #  from Wang menghua ;is from Seadas
-        p0 = 1013.25  # 单位hpa   百帕
-        x = (-(0.6543 - 1.608 * taur) + (0.8192 - 1.2541 * taur) * np.log(airmass)) * taur * airmass
-        fac = ((1.0 - np.exp(-x * pressure / p0)) / (1.0 - np.exp(-x)))  # 气压校正参数
-        Lr_i[:, :, i] = ray_i * fac * F0[i]
+        # p0 = 1013.25  # 单位hpa   百帕
+        # x = (-(0.6543 - 1.608 * taur) + (0.8192 - 1.2541 * taur) * np.log(airmass)) * taur * airmass
+        # fac = ((1.0 - np.exp(-x * pressure / p0)) / (1.0 - np.exp(-x)))  # 气压校正参数
+        # Lr_i[:, :, i] = ray_i * fac * F0[i]
+
+        # .......
+        p0 = 1013.25
+        ray_i_temp = ray_i0*np.cos(2 * np.pi * (reaa * 0) / 360) + ray_i1 * np.cos(2 * np.pi * (reaa * 1) / 360) + ray_i2 * np.cos(2 * np.pi * (reaa * 2) / 360)
+        pp0 = pressure / p0
+        pplt0 = np.where(pp0 < 0.)
+        pp0[pplt0] = 1.
+        tauray = pp0[:, :] * taur.data
+        fac = (1. - np.exp(-tauray / np.cos(np.pi * vza / 180))) / (1. - np.exp((-taur / np.cos(np.pi * vza / 180))))
+        Lr_i[:, :, i] =ray_i_temp * fac* F0[i]
+        # Lr_i[:, :, i] = ray_i * fac * F0[i]
 
     return Lr_i
