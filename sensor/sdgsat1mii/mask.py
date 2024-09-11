@@ -11,22 +11,46 @@ import numpy as np
 import cv2
 
 
+# def cloud_land_mask(rhos):
+#     """
+#     """
+#     # (rows_, columns_) = sza.shape
+#     # mu = np.cos(np.deg2rad(sza)).reshape(rows_, columns_, 1)
+#     # rhot = np.pi * lt / F0 / mu
+#     m1 = rhos[:, :, 1] > rhos[:, :, 2]
+#     m2 = rhos[:, :, 2] > rhos[:, :, 3]
+#     m3 = rhos[:, :, 3] > rhos[:, :, 4]
+#     m4 = rhos[:, :, 4] > rhos[:, :, 5]
+#     m5 = rhos[:, :, 5] > rhos[:, :, 6]
+#     z = m1 & m2 & m3 & m4 & m5
+#     # for i in range(7):
+#     #     lt[:, :, i][~z] = np.nan
+#     #     lt[:, :, i][lt[:, :, i] > F0[0, 0, i]] = np.nan
+#     ret, binary = cv2.threshold(lt[:, :, 0], 0, 255, cv2.THRESH_BINARY)
+#     kernel = np.ones((3, 3))
+#     open1 = cv2.erode(binary, kernel, iterations=2)  # 腐蚀
+#     open1[np.isnan(open1)] = np.nan
+#     open1 = open1/open1
+#     open1[open1 <= 0] = np.nan
+#     open1[open1 > 260] = np.nan
+#     open1[~np.isnan(open1)] = 1
+#     # lt = lt * open1.reshape(self.rows_chunk, self.columns_chunk, 1)
+#     return lt * open1.reshape(rows_, columns_, 1)
+
+
 def cloud_land_mask(rhos):
     """
     """
-    # (rows_, columns_) = sza.shape
+    (rows_, columns_, _) = rhos.shape
     # mu = np.cos(np.deg2rad(sza)).reshape(rows_, columns_, 1)
     # rhot = np.pi * lt / F0 / mu
-    m1 = rhos[:, :, 1] > rhos[:, :, 2]
-    m2 = rhos[:, :, 2] > rhos[:, :, 3]
-    m3 = rhos[:, :, 3] > rhos[:, :, 4]
-    m4 = rhos[:, :, 4] > rhos[:, :, 5]
-    m5 = rhos[:, :, 5] > rhos[:, :, 6]
-    z = m1 & m2 & m3 & m4 & m5
+    m1 = rhos[:, :, 1] < rhos[:, :, 6]
+    z = m1
+    rhos[:, :, 0][~z] = np.nan
     # for i in range(7):
     #     lt[:, :, i][~z] = np.nan
     #     lt[:, :, i][lt[:, :, i] > F0[0, 0, i]] = np.nan
-    ret, binary = cv2.threshold(lt[:, :, 0], 0, 255, cv2.THRESH_BINARY)
+    ret, binary = cv2.threshold(rhos[:, :, 0], 0, 255, cv2.THRESH_BINARY)
     kernel = np.ones((3, 3))
     open1 = cv2.erode(binary, kernel, iterations=2)  # 腐蚀
     open1[np.isnan(open1)] = np.nan
@@ -35,4 +59,4 @@ def cloud_land_mask(rhos):
     open1[open1 > 260] = np.nan
     open1[~np.isnan(open1)] = 1
     # lt = lt * open1.reshape(self.rows_chunk, self.columns_chunk, 1)
-    return lt * open1.reshape(rows_, columns_, 1)
+    return rhos * open1.reshape(rows_, columns_, 1)

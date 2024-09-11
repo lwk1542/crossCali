@@ -842,7 +842,7 @@ class Calcu(object):
 
     def out_varable(self):
         name_id = ".".join(os.path.basename(self.infile).split(".")[0:-1])
-        outfile = os.path.dirname(self.infile) + os.sep + name_id + "_L2.H5"
+        outfile = os.path.dirname(self.infile) + os.sep + name_id + "_L2_v0.H5"
         self.ds, self.navi_group, self.geo_group = output.create(outfile=outfile)
 
     def unit(self, lt):

@@ -121,7 +121,7 @@ class SimulationLtoa(object):
         for self.block_num, d_i_temp in enumerate(self.data_Iterator):  # 每个传感器的迭代器数据内容可能不一样，针对性处理
             (data, gains, offsets, self.lon, self.lat, self.vaa, self.vza, self.saa, self.sza) = d_i_temp
             # "读取的依然是一整个文件"
-            self.Lt = data
+            self.Lt = data * gains.reshape(1, 1, -1) * 1. + offsets.reshape(1, 1, -1)
             # 取共同区域
             exec1 = self.study_area()
             if exec1 == 0:

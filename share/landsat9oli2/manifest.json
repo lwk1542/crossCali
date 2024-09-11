@@ -1,0 +1,546 @@
+{
+    "checksum_bytes": 1000000,
+    "files": {
+        "aerosol/aerosol_olil9_default.hdf": {
+            "symlink": "aerosol_olil9_r75f01v01.hdf",
+            "tag": "R2022.8"
+        },
+        "aerosol/aerosol_olil9_r30f00v01.hdf": {
+            "checksum": "0b1eb37b547ac67100af32b7f0557d92fc1a8c3b96a64ec5ac445091993ba031",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f01v01.hdf": {
+            "checksum": "d5b3e766a21d7af4575a2e0788891b255fbf058f89dd351b5f385926c0460211",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f02v01.hdf": {
+            "checksum": "55decc34143eee685834e1c3c8b4769d5b674f0efce2bfaf5943a4170a989b85",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f05v01.hdf": {
+            "checksum": "792f39ccc8c4c4d9e1d45bec85a3185fea2ac2cf51999f7fbc0feef16c0a514b",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f10v01.hdf": {
+            "checksum": "203b254359239d6495e42f6009ec41c52f20977133e0c6b8fc6c487cce482383",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f20v01.hdf": {
+            "checksum": "bd9d251f633ce2c15c8f74826832c726615023c64d25f9a21a5bb1791120e88a",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f30v01.hdf": {
+            "checksum": "e835e61c2ffdc69e4877b19af167a592b8eda6c763fa6c17caef084eb83e862e",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f50v01.hdf": {
+            "checksum": "589550e6b20c6cb628fea9638ddf092df7b827238c497ab0a739bd3df56665ee",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f80v01.hdf": {
+            "checksum": "153bd94d730d37ebb53dd8eef8395c167e53b2ffdff21b068bdf8c85376d24db",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r30f95v01.hdf": {
+            "checksum": "90b9a82f8710d00a2c01d6669b3be182c805977227ebb46bdabb67a9bac78d3e",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f00v01.hdf": {
+            "checksum": "1e8abfbe6e72d81842843b7824fe03ccf794bab55e8d2437f805575e565f416b",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f01v01.hdf": {
+            "checksum": "79d126ae308b990722e66165f5f59624e42bee02582208e254a457ff031b6a6d",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f02v01.hdf": {
+            "checksum": "f1a2dbb331348400d8a8c7d73ef75646b037fb1b3c383505faa9a904b9d5e8d5",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f05v01.hdf": {
+            "checksum": "beb7ce4c11319f22b586bffe131058138c87da54aad71545ef8871773346caaf",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f10v01.hdf": {
+            "checksum": "7e504f6a8fe57f3ea8cf944210132401a768f263e5f7da4a5c585484b5208e31",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f20v01.hdf": {
+            "checksum": "f1b8dc49bebae79fef64206efcdabad7559e1789a5d1fa6913497d39878be96e",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f30v01.hdf": {
+            "checksum": "976d4026330359f482bca5e68a3a99aef05fe783f674b56f85740e2079331ddd",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f50v01.hdf": {
+            "checksum": "0e54a25be9b3a26608ebf86a3ebfb75cc3131146ac698720cf12c5710c4b4999",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f80v01.hdf": {
+            "checksum": "d6312cdc95d6dd29e1295e285d8260f66306433e1920a83345a29f43336286c0",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r50f95v01.hdf": {
+            "checksum": "17441b467bf2ef9e78e275894d98f1d319e85cc3c7c6446acc7809b2d6515607",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f00v01.hdf": {
+            "checksum": "4f9f001e678e4a31076f66cce5c124c0e822fad95024c64df621c72ed92010b5",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f01v01.hdf": {
+            "checksum": "6ad186ee1401ea485c13881831c89af39a5f514fd459802fcf098eb3be9cc23b",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f02v01.hdf": {
+            "checksum": "e0187137fc50049b0eacfbf7a2fccfc90093e3ecd44d8d92f85337f7937dbecd",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f05v01.hdf": {
+            "checksum": "7069158dfff7e3aeb8384d47b3517c912080d700d364a261c7af5559517f224e",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f10v01.hdf": {
+            "checksum": "a1cd8a422d63a917160d3e1136dc6b55d041ffb86fe948e6cd6c9b631ce0d84d",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f20v01.hdf": {
+            "checksum": "022cbde200267f5a00b54f9d8788b7980552fe7e7d19741fd62ee092bbb79ef9",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f30v01.hdf": {
+            "checksum": "910e3e0477e7ba06d2d781c02316fd3edf7630a48013c5a4030409a45f61574c",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f50v01.hdf": {
+            "checksum": "158ea6bc97aa6d08785ce011d75852f29b4e0afb4cd8add8bd85f05ab2175f16",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f80v01.hdf": {
+            "checksum": "4cc4dcf23fbea7b881d774c182239ec67a0c90be32313ad47621fbd80aef3c87",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r70f95v01.hdf": {
+            "checksum": "ddcd1e7e4e0e8fcb5903df88b5928bf5f2691762a9201863848904a7102b1857",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f00v01.hdf": {
+            "checksum": "94b3674d339751002cd9d93188d6f0c863ed13205c6950edca77e75967a6861d",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f01v01.hdf": {
+            "checksum": "4a447be08721473f050026990ca8f81a1a1f677052cc99d690a78227881173a4",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f02v01.hdf": {
+            "checksum": "b01a587d950f35605e70b4673ead5fb54a22d05803d78adcd22385bbab50f1b9",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f05v01.hdf": {
+            "checksum": "c433b0a493c04d18aedd15c7c3e753101ac775d70da920401b3af9c014d30b9a",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f10v01.hdf": {
+            "checksum": "87fc60fa139f9642f5f9af5c9c301fd57fc86311b4e46527d5cde280921bb812",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f20v01.hdf": {
+            "checksum": "abb66a07034abe767b9391c6a781e1bbf5e4f01a1be23c273cf4d23a54c5cfa9",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f30v01.hdf": {
+            "checksum": "fd36137f135035d4eab899ab0c0527629e429bc718ab1d1cca7770d33ea40dd0",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f50v01.hdf": {
+            "checksum": "febb27e8bf965aaa9cc8d7bdd2c36275f0600ce09edcc5e7bceaa801ae63b5ca",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f80v01.hdf": {
+            "checksum": "0a58bba12b662fc378ec6f5d4635d649c60f15fc6d31ab6c9144846a5f01ee14",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r75f95v01.hdf": {
+            "checksum": "14dfcd3f44f7b9ef748f372ae773e3b9720b76402b87024e32330529fa5b87c4",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f00v01.hdf": {
+            "checksum": "3250589d682d24100e6404c1692d80929aa9a092106d6900cfc646a88e863cc7",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f01v01.hdf": {
+            "checksum": "ec94372892f8092aad33ab02e5f0d27c845b08056fc51f2400ac19b1a2a0b9e2",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f02v01.hdf": {
+            "checksum": "b8b98623d03a2684cb86c6b2dd3503ad7ec57ea284bf4dc1bf779b6503b3dca9",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f05v01.hdf": {
+            "checksum": "ff96d5b849c1a81206fc6d4ce7e56785363d25381f7a66c989f6ef02fb9b9197",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f10v01.hdf": {
+            "checksum": "282725b69b2723fa856d9daa81e0d75368d60675c1ddd756a789c9f87da5e005",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f20v01.hdf": {
+            "checksum": "9e7af9532e0b4a0391344e17a102755fd43508375a5a9b13f6d6945de0ed6eac",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f30v01.hdf": {
+            "checksum": "d50d6eef542a5880bb2e2c81a00dc2d9a674ae10f19912fa07274053f6434340",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f50v01.hdf": {
+            "checksum": "3ad8bcf18b7b5bdd491ca2535a9a1257d755ce5013005460fd57feff68e28686",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f80v01.hdf": {
+            "checksum": "286daf7fb7dfe220716a64ee8fa4bd128db947f68eff750c393d3545df6c4860",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r80f95v01.hdf": {
+            "checksum": "adeec3ae8335deced2d65a8064eac16677eef90b7c6991e7231dabba23cf6aac",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f00v01.hdf": {
+            "checksum": "9435827f3dffbb217f6ab235ddafd2379a611fb472e4ba14961caf6c38bcff1d",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f01v01.hdf": {
+            "checksum": "b83112e305145c0f7bf6a94d8610811022cf3ba0a60e2ab9aa846c50abdae5ee",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f02v01.hdf": {
+            "checksum": "aec16035c45d816adf3b1455efbe3e785a91de4b4df55100065649e8d373c180",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f05v01.hdf": {
+            "checksum": "e4fc7d7f2d564052c24565081444fc03842dd77d77298c779443523252841b54",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f10v01.hdf": {
+            "checksum": "cb1598aa6bce2ac5588e1336052967d5a98ae43e69a8491511a8a8ddad47c98c",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f20v01.hdf": {
+            "checksum": "2ccd1516b29c89e32a371bb4f12d31a4395f2483a97526503b8ea8c277f357ff",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f30v01.hdf": {
+            "checksum": "1ac0cb42b67091ba24a9aa4f9c7f8daa89220bfdb8a6ef2d70aff1f958503d98",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f50v01.hdf": {
+            "checksum": "e2d231db16d6f2e445f7b6da501e0e5715553a4df8904a0a9665b6b5c4160e66",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f80v01.hdf": {
+            "checksum": "5afb1eda4a72db277c05ab01e909063dd363b01138e482ec55bcb19f114ac097",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r85f95v01.hdf": {
+            "checksum": "93af8df311cb2fbe715ef070fd6e450d75bec604d83972a41336ddeba0990ff5",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f00v01.hdf": {
+            "checksum": "c04e9be52523a078affb15ccb2ac5e040b4d022b1fadee1c04ef285102221057",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f01v01.hdf": {
+            "checksum": "104c5038016008b73b571744da95de6e47ecd04eeaa8dee805696263b329bfc3",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f02v01.hdf": {
+            "checksum": "1b31a51b12b2886582be42875ca127fb91b06c60ab68a9bcd2c85d37127da615",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f05v01.hdf": {
+            "checksum": "de729e9eb8cccd293338fb45892d3b0cb5abec94323bfc036498cf15a2e03853",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f10v01.hdf": {
+            "checksum": "64bbde560221b94bf40cc8058cbcab0d188eebac39e0a85defe42fd56016e66d",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f20v01.hdf": {
+            "checksum": "4fa862638f760447bdf9d466c6218e4d91b2c6a19fdaea34a4c35d364c11555c",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f30v01.hdf": {
+            "checksum": "6006401691430b7e52ff0ae7d38bcc195e186d35f9224a96f09bd0099b38ab16",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f50v01.hdf": {
+            "checksum": "c61414fb029db57ec2e4ed17984f18f52938832cd8c4aa525a15a8457867dbe6",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f80v01.hdf": {
+            "checksum": "88467facc4035a9698d1b971f1aa28c1e353763278b47041efec1f50c777a8d2",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r90f95v01.hdf": {
+            "checksum": "8608bdda957333c768588b15521ceb76443f7af93e98571c10c602cfc499e7ce",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f00v01.hdf": {
+            "checksum": "489b07c56b53f00562c0baf037c7aaacc317ae9e93ec95548a71fe1ef9e2b224",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f01v01.hdf": {
+            "checksum": "06e674d92df06f89587447823ac93a57e0e7a698d291611ee4c40cbf031b58b7",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f02v01.hdf": {
+            "checksum": "e3b42a9ca2964ae381471513718a1362b6b9313b221fcce87b502d641d2c1a4b",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f05v01.hdf": {
+            "checksum": "51d331efa4093d2fa97511a9ebd11e159b3102ec74d8b7e7283260efe6ae2433",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f10v01.hdf": {
+            "checksum": "0b0219bb186632d314a8d01c4b464d6af4dcc6ddfb56aca9ec2e70fd9a117c94",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f20v01.hdf": {
+            "checksum": "532d65fe64b97ff1ebd99e15ed5c2b647200d44afd7ffa2eee8cc4be0973fc0e",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f30v01.hdf": {
+            "checksum": "a09c86eca1cd6d742af76639acdf38c183753a85b621dad1ca73a51c1ee989b7",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f50v01.hdf": {
+            "checksum": "c01a378e821f3f8018c603c638093ea4772588b448f2ffd1095d6291a27d7bcc",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f80v01.hdf": {
+            "checksum": "1cb18402f232c1c3f381ff1705226db9706b4b8552da6208bf70b0d1af81badc",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "aerosol/aerosol_olil9_r95f95v01.hdf": {
+            "checksum": "89089bd805948d05f54837fd078a69abd5c34d174b438367f512fad28295bc4d",
+            "mode": 33204,
+            "size": 4936894,
+            "tag": "R2022.10"
+        },
+        "msl12_defaults.par": {
+            "checksum": "fa3ce172a23aec24e696cf9622b31cf4d837d24d7afe8d4788d7b0fd349513a9",
+            "mode": 33204,
+            "size": 889,
+            "tag": "R2022.6"
+        },
+        "olil9_gas_transmittance.nc": {
+            "symlink": "../l8/olil8_gas_transmittance.nc",
+            "tag": "T2022.14"
+        },
+        "rayleigh/rayleigh_olil9_1609_iqu.hdf": {
+            "symlink": "../../l8/rayleigh/rayleigh_olil8_1609_iqu.hdf",
+            "tag": "R2022.5"
+        },
+        "rayleigh/rayleigh_olil9_2201_iqu.hdf": {
+            "symlink": "../../l8/rayleigh/rayleigh_olil8_2201_iqu.hdf",
+            "tag": "R2022.5"
+        },
+        "rayleigh/rayleigh_olil9_443_iqu.hdf": {
+            "symlink": "../../l8/rayleigh/rayleigh_olil8_443_iqu.hdf",
+            "tag": "R2022.5"
+        },
+        "rayleigh/rayleigh_olil9_482_iqu.hdf": {
+            "symlink": "../../l8/rayleigh/rayleigh_olil8_482_iqu.hdf",
+            "tag": "R2022.5"
+        },
+        "rayleigh/rayleigh_olil9_561_iqu.hdf": {
+            "symlink": "../../l8/rayleigh/rayleigh_olil8_561_iqu.hdf",
+            "tag": "R2022.5"
+        },
+        "rayleigh/rayleigh_olil9_655_iqu.hdf": {
+            "symlink": "../../l8/rayleigh/rayleigh_olil8_655_iqu.hdf",
+            "tag": "R2022.5"
+        },
+        "rayleigh/rayleigh_olil9_865_iqu.hdf": {
+            "symlink": "../../l8/rayleigh/rayleigh_olil8_865_iqu.hdf",
+            "tag": "R2022.5"
+        }
+    },
+    "name": "olil9",
+    "tags": [
+        "R2022.10",
+        "R2022.11",
+        "R2022.12",
+        "R2022.13",
+        "R2022.14",
+        "R2022.15",
+        "R2022.16",
+        "R2022.17",
+        "R2022.18",
+        "R2022.19",
+        "V2022.1",
+        "v3.2.2",
+        "V2022.2",
+        "v3.2.3",
+        "V2022.3",
+        "V2023.0"
+    ]
+}

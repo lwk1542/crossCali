@@ -15,6 +15,7 @@ import osgeo
 from xml.etree import ElementTree as ET
 import warnings
 warnings.filterwarnings("ignore")
+from lxml import etree
 
 
 def meta_xml(file):
@@ -30,67 +31,46 @@ def meta_xml(file):
 
 
 def calib_xml(xmlfile):
-    # xmlfile = "L4A.calib.xml"
-    # f = open(file, "r", encoding="gb2312") # gb2312格式不好用
-    # datasource = f.read()
-    # per = ET.parse(datasource)
-    new_caliCoeff = np.array([[0.051560133, 0], [0.036241353, 0], [0.023316835, 0], [0.015849666, 0], [0.016096381, 0],
-                      [0.019719039, 0], [0.013811458, 0]])/10
+    root = etree.parse(xmlfile)
+    or_gains = np.array(
+        [float(root.find("./RADIOMETRIC_CALIBRATION/MII/VERSION/RADIANCE_GAIN_BAND_"+str(i+1)).text) for i in range(7)])/10
+    or_bias = np.array(
+        [float(root.find("./RADIOMETRIC_CALIBRATION/MII/VERSION/RADIANCE_BIAS_BAND_" + str(i + 1)).text) for i in range(7)])
 
-    # 自己交叉定标后的系数
-    # new_caliCoeff = [[0.00501, 1.49503],
-    #                  [0.0031, 2.00318],
-    #                  [0.00249, 0.13565],
-    #                  [0.00178, -0.43103],
-    #                  [0.00144, 0.13846],
-    #                  [0.00197, -0.06615],
-    #                  [0.00112, 0.01839]
-    #                  ]
-    # new_caliCoeff = [[0.00636, 0.0],
-    #                  [0.00437, 0.0],
-    #                  [0.00256, 0.0],
-    #                  [0.00154, 0.0],
-    #                  [0.0016, 0.0],
-    #                  [0.00179, 0.0],
-    #                  [0.00117, 0.0]]
-    new_caliCoeff = [
-        [0.00543, 0.99903],
-        [0.00329, 1.65215],
-        [0.00249, 0.05158],
-        [0.00163, -0.26043],
-        [0.0013, 0.18868],
-        [0.00147, 0.05295],
-        [0.00096, 0.04909]
-    ]
-    new_caliCoeff = [
-        [0.00543, 0.0],
-        [0.00329, 0.0],
-        [0.00249, 0.0],
-        [0.00163, 0.0],
-        [0.0013, 0.0],
-        [0.00147, 0.0],
-        [0.00096, 0.0]
-    ]
+    new_caliCoeff = [[1.10337, -0.25476],
+                     [1.10715, -0.13425],
+                     [1.35326, -0.08069],
+                     [0.93589, - 0.23609],
+                     [0.95152, - 0.04716],
+                     [1.14712, - 0.26284],
+                     [1.36286, - 0.27304]]
+    new_caliCoeff = [[1.10337, -0.40476],
+                     [1.10715, -0.00425],
+                     [1.35326, 2.18069],
+                     [0.85589, - 0.23609],
+                     [0.95152, - 0.01716],
+                     [1.14712, - 0.26284],
+                     [1.36286, - 0.27304]]
 
-    new_caliCoeff = [[0.00579, 0.57391],
-                     [0.00348, 1.31149],
-                     [0.00255, -0.07411],
-                     [0.0016, -0.20136],
-                     [0.00127, 0.20652],
-                     [0.00142, 0.06843],
-                     [0.00091, 0.05786]]
+    new_caliCoeff = [[1.26254, -0.91464],
+                     [1.05123, -0.0297],
+                     [0.8127, 0.75015],
+                     [0.68587, 0.5454],
+                     [0.58692, 0.35871],
+                     [0.50841, 0.12226],
+                     [0.47304, 0.08019]]
 
-    new_caliCoeff = [[0.00507, 1.27602],
-                     [0.00314, 1.79567],
-                     [0.00242, 0.2391],
-                     [0.00163, -0.09851],
-                     [0.00135, 0.18884],
-                     [0.00149, 0.04174],
-                     [0.00098, 0.03935]]
+    new_caliCoeff = [[1.0, 0.0],
+                     [1.0, 0.0],
+                     [1.0, 0.0],
+                     [1.0, 0.0],
+                     [1.0, 0.0],
+                     [1.0, 0.0],
+                     [1.0, 0.0]]
 
     gains = np.array([i[0] for i in new_caliCoeff])
     bias = np.array([i[1] for i in new_caliCoeff])
-    return gains, bias
+    return or_gains, or_bias, gains, bias
 
 
 class ReadIterator(object):
@@ -160,13 +140,12 @@ class ReadIterator(object):
             self.iter_num += 1
             self.lag = self.iter_num * y_offset
 
-            #
             dirname = os.path.dirname(self.in_file)
             basename = os.path.basename(self.in_file)
             name_id = "_".join(basename.split("_")[0:7])
             calib_file_path = glob.glob(dirname + os.sep + name_id + "*.calib.xml")[0]
             meta_file_path = glob.glob(dirname + os.sep + name_id + "*.meta.xml")[0]
-            gains, offsets = calib_xml(calib_file_path)
+            or_gains, or_bias, gains, offsets = calib_xml(calib_file_path)
             time, saa_, sza_, roll, pitch, yaw = meta_xml(meta_file_path)
 
             vaa = np.zeros_like(lat)+100
@@ -174,7 +153,8 @@ class ReadIterator(object):
             saa = np.zeros_like(vaa) + saa_
             sza = np.zeros_like(vaa) + sza_
 
-            return data.transpose(1, 2, 0), gains, offsets, lon, lat, vaa, vza, saa, sza
+            return data.transpose(1, 2, 0) * or_gains.reshape(1, 1, -1) + or_bias.reshape(1, 1, -1), \
+                   gains, offsets, lon, lat, vaa, vza, saa, sza
 
         else:
             raise StopIteration()  # 表示至此停止迭代

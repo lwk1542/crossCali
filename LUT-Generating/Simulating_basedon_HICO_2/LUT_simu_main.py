@@ -42,17 +42,16 @@ def calculate_band_average(reference_spectrum=None, spectrum_response_function=N
     reference_wave = reference_spectrum.iloc[:, 0]
     reference_response = reference_spectrum.iloc[:, 1]
     # 波段数：
-    bands = int(spectrum_response_function.shape[1]/2)
+    bands = int(spectrum_response_function.shape[1] - 1)
     band_values = []
     for i in range(bands):
-        srf_wave = spectrum_response_function.iloc[:, 2*i]
-        srf_band = spectrum_response_function.iloc[:, 2*i+1]
+        srf_wave = spectrum_response_function.iloc[:, 0]
+        srf_band = spectrum_response_function.iloc[:, i + 1]
         # high_boundary = np.min(np.nanmax(reference_wave), np.nanmax(srf_wave))
         # low_boundary = np.max(np.nanmin(reference_wave), np.nanmin(srf_wave))
         wave, solar_spectrum_new = interpolate_fun(reference_wave, reference_response, x_new=srf_wave)
         band_values_ = np.nansum(solar_spectrum_new * srf_band) / np.nansum(srf_band)
         band_values.append(band_values_)
-
     return band_values
 
 
