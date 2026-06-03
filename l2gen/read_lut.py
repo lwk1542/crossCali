@@ -45,21 +45,25 @@ class CommonVariable(object):
         # return sensor_info, self.rayleigh_lut_path, self.aerosol_lut_path
 
     def get_lookup_table(self):
+        from pathlib import Path
+        # 1. 获取当前脚本所在的目录 (比如 .../project/scripts)
+        script_dir = Path(__file__).resolve().parent
+        sensor_info_path = script_dir.parent
         # 根据指定的传感器获取查找表路径
         print('sensorID: ' + self.sensor_id)
         match self.sensor_id:
             case 'hy1ccocts':
-                lut_path = r"../share" + os.sep + 'hy1ccocts'
+                lut_path = f"{sensor_info_path}/share" + os.sep + 'hy1ccocts'
             case 'hy1dcocts':
-                lut_path = r"../share" + os.sep + 'hy1dcocts'
+                lut_path = f"{sensor_info_path}/share" + os.sep + 'hy1dcocts'
             case 'fy3dmersi':
-                lut_path = r"../share" + os.sep + "fy3dmersi"
+                lut_path = f"{sensor_info_path}/share" + os.sep + "fy3dmersi"
             case "sdgsat1mii":
-                lut_path = r"../share" + os.sep + "sdgsat1mii"
+                lut_path = f"{sensor_info_path}/share" + os.sep + "sdgsat1mii"
             case 'seawifsphd':
-                lut_path = r"../share" + os.sep + "seawifsphd"
+                lut_path = f"{sensor_info_path}/share" + os.sep + "seawifsphd"
             case "landsat8oli":
-                lut_path = r"../share" + os.sep + "landsat8oli"
+                lut_path = f"{sensor_info_path}/share" + os.sep + "landsat8oli"
             case _:
                 print("Error: Can not identify satellite sensor ID for obtaining look-up table... ")
         # if self.sensor_id == 'hy1acocts':

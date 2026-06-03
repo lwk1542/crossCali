@@ -162,7 +162,7 @@ def get(infile=None, sensor_id=None, block_size: int = None):
             print("from sensor.hy1ccocts import read_img")
             from sensor.hy1ccocts import read_img
     elif sensor_id == 'hy1dcocts':
-        if all(idx in os.path.basename(infile) for idx in ['H1D_OPER_OCT_L1A_', "_10.h5"]):  # 数据级别
+        if all(idx in os.path.basename(infile) for idx in ['H1D_OPER_OCT_', ".h5"]):  # 数据级别
             print("from sensor.hy1dcocts import read_img")
             from sensor.hy1dcocts import read_img
     elif sensor_id == 'fy3dmersi':

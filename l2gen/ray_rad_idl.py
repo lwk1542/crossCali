@@ -37,6 +37,9 @@ def ray_rad(rayleigh_infos, press, sza, vza,saa,vaa, doy,F0, bands, windspeed):
 
     press0 = 1013.25
 
+    sigma_ = np.sqrt(0.00534 * windspeed)   # https://forum.earthdata.nasa.gov/viewtopic.php?t=2235
+    
+
     Lr_i = np.zeros(shape=(sza.shape[0], sza.shape[1], bands.size))
     for i, band in enumerate(bands):
         raylut_info = rayleigh_infos[str(int(band))]
@@ -46,15 +49,18 @@ def ray_rad(rayleigh_infos, press, sza, vza,saa,vaa, doy,F0, bands, windspeed):
         sigma = raylut_info["sigma"]
         i_ray = raylut_info["i_ray"]
 
+        sigma_[sigma_ > np.max(sigma)] = np.max(sigma)  # 避免超限
+        sigma_[np.isnan(sigma_)] = 0  # 避免超限
+        
         Norder0 = np.zeros_like(sza)
         ray_i0 = interpolate.interpn((sigma.reshape(-1), sun_j.reshape(-1), np.arange(3).reshape(-1), ray_ang.reshape(-1)), i_ray,
-                    np.stack([windspeed*0., sza, Norder0, vza], axis=2), method='linear')
+                    np.stack([sigma_, sza, Norder0, vza], axis=2), method='linear')
         ray_i1 = interpolate.interpn(
             (sigma.reshape(-1), sun_j.reshape(-1), np.arange(3).reshape(-1), ray_ang.reshape(-1)), i_ray,
-            np.stack([windspeed * 0., sza, Norder0+1, vza], axis=2), method='linear')
+            np.stack([sigma_, sza, Norder0+1, vza], axis=2), method='linear')
         ray_i2 = interpolate.interpn(
             (sigma.reshape(-1), sun_j.reshape(-1), np.arange(3).reshape(-1), ray_ang.reshape(-1)), i_ray,
-            np.stack([windspeed * 0., sza, Norder0+2, vza], axis=2), method='linear')
+            np.stack([sigma_, sza, Norder0+2, vza], axis=2), method='linear')
         ray_i_temp = ray_i0 * np.cos(2 * np.pi * (phi * 0) / 360) + ray_i1 * np.cos(
             2 * np.pi * (phi * 1) / 360) + ray_i2 * np.cos(2 * np.pi * (phi * 2) / 360)
         ray_i=ray_i_temp

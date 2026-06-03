@@ -8,6 +8,7 @@
 @phone   : 132-9663-2830
 """
 import datetime
+import logging
 from . import block_read
 import warnings
 import h5py
@@ -20,8 +21,15 @@ def get(infile, blocksize: int=None)->list:
     dt = datetime.datetime.strptime(day_time, "%Y-%m-%dT%H:%M:%S")
     year, month, day, hour, minute = dt.year, dt.month, dt.day, dt.hour, dt.minute
     columns = ds.attrs["Pixels Per Scan Line"]
-    (rows, columns) = ds["Geophysical Data/DN_412"].shape
-    if blocksize > rows:
+    geo_data = ds["Geophysical Data"]
+    if "DN_412" in geo_data:
+        (rows, columns) = geo_data["DN_412"].shape
+    elif "L_412" in geo_data:
+        (rows, columns) = geo_data["L_412"].shape
+    else:
+        logging.error(f"Error: Neither DN_412 nor L_412 found in this data: {infile}.")
+        return None
+    if blocksize is None or blocksize > rows:
         blocksize = rows
     data_Iterator = block_read.ReadIterator(infile, blocksize=blocksize, rows=rows, columns=columns)
     num_443, num_490, num_520, num_555, num_670, nirs_num, nirl_num = 1, 2, 3, 4, 5, 6, 7

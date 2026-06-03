@@ -33,6 +33,7 @@ from l2gen import predefine
 import sys
 # sys.path.append(os.getcwd()+os.sep+"l2gen")
 sys.path.append("../l2gen")
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 import airmass
 
 

@@ -41,11 +41,12 @@ def calculate_band_average(reference_spectrum=None, spectrum_response_function=N
     reference_wave = reference_spectrum.iloc[:, 0]
     reference_response = reference_spectrum.iloc[:, 1]
     # 波段数：
-    bands = int(spectrum_response_function.shape[1]/2)
+    bands = int(spectrum_response_function.shape[1]-1)
     band_values = []
+    srf_wave = spectrum_response_function.iloc[:, 0]  # 传感器光谱响应函数的波长
     for i in range(bands):
-        srf_wave = spectrum_response_function.iloc[:, 2*i]
-        srf_band = spectrum_response_function.iloc[:, 2*i+1]
+
+        srf_band = spectrum_response_function.iloc[:, i+1]  # 波段的光谱响应函数
         # high_boundary = np.min(np.nanmax(reference_wave), np.nanmax(srf_wave))
         # low_boundary = np.max(np.nanmin(reference_wave), np.nanmin(srf_wave))
         wave, solar_spectrum_new = interpolate_fun(reference_wave, reference_response, x_new=srf_wave)
@@ -139,14 +140,14 @@ class SensorInfo(object):
             f_target.write('\n')
         # lambda
         for i, line in enumerate(self.centr_wave):
-            f_target.write("Lambda({0}) = {1}".format(i, line))
+            f_target.write("Lambda({0}) = {1}".format(i+1, line))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         # F0
         for i, line in enumerate(self.F0):
-            f_target.write("F0({0}) = {1}".format(i, line))
+            f_target.write("F0({0}) = {1}".format(i+1, line))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
@@ -157,7 +158,7 @@ class SensorInfo(object):
         taur_hyper, dpol_hyper = self.read_taur()
         taur_bands = calculate_band_average(reference_spectrum=taur_hyper, spectrum_response_function=target_rsr)
         for i, line in enumerate(taur_bands):
-            f_target.write("Tau_r({0}) = {1}".format(i, line))
+            f_target.write("Tau_r({0}) = {1}".format(i+1, line))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
@@ -166,7 +167,7 @@ class SensorInfo(object):
         koz_hyper = self.read_koz()
         koz_bands = calculate_band_average(reference_spectrum=koz_hyper, spectrum_response_function=target_rsr)
         for i, line in enumerate(koz_bands):
-            f_target.write("k_oz({0}) = {1}".format(i, line))
+            f_target.write("k_oz({0}) = {1}".format(i+1, line))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
@@ -175,7 +176,7 @@ class SensorInfo(object):
         kno2_hyper = self.read_kno2()
         kno2_bands = calculate_band_average(reference_spectrum=kno2_hyper, spectrum_response_function=target_rsr)
         for i, line in enumerate(kno2_bands):
-            f_target.write("k_no2({0}) = {1}".format(i, line))
+            f_target.write("k_no2({0}) = {1}".format(i+1, line))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
@@ -184,14 +185,14 @@ class SensorInfo(object):
         aw_hico, bbw_hico = self.read_hico()
         aw_bands = calculate_band_average(reference_spectrum=aw_hico, spectrum_response_function=target_rsr)
         for i, line in enumerate(aw_bands):
-            f_target.write("aw({0}) = {1}".format(i, line))
+            f_target.write("aw({0}) = {1}".format(i+1, line))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         bbw_bands = calculate_band_average(reference_spectrum=bbw_hico, spectrum_response_function=target_rsr)
         for i, line in enumerate(bbw_bands):
-            f_target.write("bbw({0}) = {1}".format(i, line))
+            f_target.write("bbw({0}) = {1}".format(i+1, line))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
@@ -202,7 +203,7 @@ class SensorInfo(object):
             f_target.write(line)
             f_target.write('\n')
         for i, line in enumerate(self.centr_wave):
-            f_target.write("t_co2({0}) = {1}".format(i, 1))
+            f_target.write("t_co2({0}) = {1}".format(i+1, 1))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
@@ -213,43 +214,43 @@ class SensorInfo(object):
             f_target.write(line)
             f_target.write('\n')
         for i, line in enumerate(self.centr_wave):
-            f_target.write("a_h2o({0}) = {1}".format(i, 1.0))
+            f_target.write("a_h2o({0}) = {1}".format(i+1, 1.0))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         for i, line in enumerate(self.centr_wave):
-            f_target.write("b_h2o({0}) = {1}".format(i, 0.0))
+            f_target.write("b_h2o({0}) = {1}".format(i+1, 0.0))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         for i, line in enumerate(self.centr_wave):
-            f_target.write("c_h2o({0}) = {1}".format(i, 0.0))
+            f_target.write("c_h2o({0}) = {1}".format(i+1, 0.0))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         for i, line in enumerate(self.centr_wave):
-            f_target.write("d_h2o({0}) = {1}".format(i, 0.0))
+            f_target.write("d_h2o({0}) = {1}".format(i+1, 0.0))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         for i, line in enumerate(self.centr_wave):
-            f_target.write("e_h2o({0}) = {1}".format(i, 0.0))
+            f_target.write("e_h2o({0}) = {1}".format(i+1, 0.0))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         for i, line in enumerate(self.centr_wave):
-            f_target.write("f_h2o({0}) = {1}".format(i, 0.0))
+            f_target.write("f_h2o({0}) = {1}".format(i+1, 0.0))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
 
         for i, line in enumerate(self.centr_wave):
-            f_target.write("g_h2o({0}) = {1}".format(i, 0.0))
+            f_target.write("g_h2o({0}) = {1}".format(i+1, 0.0))
             f_target.write('\n')
         f_target.write(' ')
         f_target.write('\n')
@@ -275,29 +276,29 @@ class SensorInfo(object):
             f_target.write(line)
             f_target.write('\n')
         for i, line in enumerate(lines):
-            f_target.write("oobwv01({0}) = 1.0".format(i))
+            f_target.write("oobwv01({0}) = 1.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv02({0}) = 0.0".format(i))
+            f_target.write("oobwv02({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv03({0}) = 0.0".format(i))
+            f_target.write("oobwv03({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv04({0}) = 0.0".format(i))
+            f_target.write("oobwv04({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv05({0}) = 0.0".format(i))
+            f_target.write("oobwv05({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv06({0}) = 0.0".format(i))
+            f_target.write("oobwv06({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv07({0}) = 0.0".format(i))
+            f_target.write("oobwv07({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv08({0}) = 0.0".format(i))
+            f_target.write("oobwv08({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv09({0}) = 0.0".format(i))
+            f_target.write("oobwv09({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv10({0}) = 0.0".format(i))
+            f_target.write("oobwv10({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv11({0}) = 0.0".format(i))
+            f_target.write("oobwv11({0}) = 0.0".format(i+1))
             f_target.write('\n')
-            f_target.write("oobwv12({0}) = 0.0".format(i))
+            f_target.write("oobwv12({0}) = 0.0".format(i+1))
             f_target.write('\n')
             f_target.write(' ')
             f_target.write('\n')

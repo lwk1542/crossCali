@@ -5,7 +5,6 @@ Created on Fri Feb 11 14:20:32 2022
 @author: Jilin men, wenkai li修改
 """
 import numpy as np
-import h5py
 import pandas as pd
 from pyhdf.SD import SD, SDC
 import datetime
@@ -31,14 +30,9 @@ def read_rsr(file,sensorid):
     '''
     读取传感器的光谱响应函数
     '''
-    # rsr = pd.read_excel(io=file, sheet_name=sensorid, header=0, index_col=0)
-    # wave_rsr = rsr.index
-    # wave_target = rsr.columns
-
     rsr = pd.read_excel(io=file, sheet_name=sensorid, header=0, index_col=0)
-    # wave_rsr = rsr.index
-    # wave_target = rsr.columns
-    wave_target = rsr.columns[1::2]
+    wave_rsr = rsr.index
+    wave_target = rsr.columns
     return rsr, wave_rsr, wave_target
 
 
@@ -59,14 +53,9 @@ def run_main(path_rsr, path_hico, out_path, sensorid):
     hico_bands = []
     files = glob.glob(os.path.join(path_hico, '*.hdf'))
     hico_bands = np.array([int(os.path.basename(i).split("_", -1)[2]) for i in files])
-
+    
     for i in range(wave_target.__len__()):  # 小于1080nm的波段
         # 响应范围
-        wave_rsr = rsr.index
-        wave_rsr = rsr.iloc[:, 2 * i]
-        srf_band = spectrum_response_function.iloc[:, 2 * i + 1]
-        response_range =
-
         response_range = rsr[wave_target[i]][rsr[wave_target[i]] > 0.1]
         response_wave = response_range.index.values
         response_val = response_range.values
@@ -128,8 +117,8 @@ def run_main(path_rsr, path_hico, out_path, sensorid):
         d3.slope = 1.0
         d3.intercept = 0.0
         d3.units = 'degrees'
-        # dim1 = d3.dim(0)
-        # dim1.setname('nrad_ray')
+        dim2 = d3.dim(0)
+        dim2.setname('nrad_ray')
         d3[:] = senz
 
         d4 = hdffile.create('solz', SDC.FLOAT32, solz.shape)
@@ -137,8 +126,8 @@ def run_main(path_rsr, path_hico, out_path, sensorid):
         d4.slope = 1.0
         d4.intercept = 0.0
         d4.units = 'degrees'
-        # dim1 = d4.dim(0)
-        # dim1.setname('nrad_ray')
+        dim2 = d4.dim(0)
+        dim2.setname('nsun_ray')
         d4[:] = solz
 
         d5 = hdffile.create('sigma', SDC.FLOAT32, sigma.shape)
@@ -146,8 +135,8 @@ def run_main(path_rsr, path_hico, out_path, sensorid):
         d5.slope = 1.0
         d5.intercept = 0.0
         d5.units = 'sqrt(m/s)'
-        # dim1 = d5.dim(0)
-        # dim1.setname('nwind_ray')
+        dim3 = d5.dim(0)
+        dim3.setname('nwind_ray')
         # d5[:] = (sigma/0.0731)**2
         d5[:] = sigma
 
@@ -157,6 +146,11 @@ def run_main(path_rsr, path_hico, out_path, sensorid):
         d6.intercept = 0.0
         d6.units = 'dimensionless'
         d6[:] = i_ray
+        # 为每个维度设置名称
+        dim_names = ["nwind_ray", "nsun_ray", "norder_ray",'nrad_ray']
+        for i, dim_name in enumerate(dim_names):
+            dim = d6.dim(i)
+            dim.setname(dim_name)
 
         d7 = hdffile.create('q_ray', SDC.FLOAT32, q_ray.shape)
         d7.long_name = 'Rayleigh Reflectance Coefficients for Q-compoent'
@@ -164,6 +158,9 @@ def run_main(path_rsr, path_hico, out_path, sensorid):
         d7.intercept = 0.0
         d7.units = 'dimensionless'
         d7[:] = q_ray
+        for i, dim_name in enumerate(dim_names):
+            dim = d7.dim(i)
+            dim.setname(dim_name)
 
         d8 = hdffile.create('u_ray', SDC.FLOAT32, u_ray.shape)
         d8.long_name = 'Rayleigh Reflectance Coefficients for U-compoent'
@@ -171,6 +168,9 @@ def run_main(path_rsr, path_hico, out_path, sensorid):
         d8.intercept = 0.0
         d8.units = 'dimensionless'
         d8[:] = u_ray
+        for i, dim_name in enumerate(dim_names):
+            dim = d8.dim(i)
+            dim.setname(dim_name)
 
         d1.endaccess()
         d2.endaccess()

@@ -56,14 +56,14 @@ def calculate_band_average(reference_spectrum=None, spectrum_response_function=N
 
 
 def commom_variables():
-    hico_dir = r"D:\researchProject_lwk\atmospheric_correction\oceancolor_acnirv2\share\hico"
-    base_dir = r'D:\researchProject_lwk\atmospheric_correction\oceancolor_acnirv2'
+    hico_dir = r"D:\researchProject_lwk\code\atmoscorr\AC_l2gen\share\hico"
+    base_dir = r'D:\researchProject_lwk\code\atmoscorr\AC_l2gen'
     rsr_dir = base_dir + os.sep + "RSR"
-    rsr_infile = rsr_dir + os.sep + 'RSR.xlsx'
+    rsr_infile = rsr_dir + os.sep + 'RSR.xlsx'   #注意这些文件的格式
     infofile_taur = rsr_dir + os.sep + "taur.txt"
     infofile_ozone = rsr_dir + os.sep + 'Ozoneattenuationcoefficients'
     infofile_no2 = rsr_dir + os.sep + 'NO2absorption'
-    sensorid = "fengyun3dmersi"  # "goci"
+    sensorid = 'hy1dcocts'  # "goci" "fengyun3dmersi"
     lut_target_dir = base_dir + os.sep + "share"+os.sep+sensorid
 
     F0, center_wave = f0(rsr_infile=rsr_infile, sensorid=sensorid)
@@ -74,7 +74,7 @@ def commom_variables():
 
 
 def f0(rsr_infile, sensorid):
-    thuillier_F0_file = r'D:\researchProject_lwk\atmospheric_correction\oceancolor_acnirv2\RSR/Thuillier_F0.txt'
+    thuillier_F0_file = r'D:\researchProject_lwk\code\atmoscorr\AC_l2gen\LUT-Generating\SRF/Thuillier_F0.txt'
     f_reference = open(thuillier_F0_file, "r")
     lines = f_reference.readlines()[:]
     wavelength = [float(i.split(" ", -1)[0]) for i in lines]
@@ -85,7 +85,7 @@ def f0(rsr_infile, sensorid):
     target_rsr = pd.read_excel(io=rsr_infile, sheet_name=sensorid, header=0, index_col=None)
     f0 = calculate_band_average(reference_spectrum=f0_df, spectrum_response_function=target_rsr)
     # center_wave = target_rsr.columns.values[0:]
-    center_wave = target_rsr.columns[1::2]
+    center_wave = target_rsr.columns[1:]
     return f0, center_wave
 
 

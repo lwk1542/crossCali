@@ -38,9 +38,10 @@ def read_hico_aerosol(path):
     dtran_b = (dt.select('dtran_b')).get()
     dtran_a0 = (dt.select('dtran_a0')).get()
     dtran_b0 = (dt.select('dtran_b0')).get()
+    att_sd = getattr(dt, 'Size Distribution')
 
     return wave, scatt, albedo, extc, angstrom, phase, solz, senz, \
-           phi, acost, bcost, ccost, dtran_wave, dtran_theta, dtran_a, dtran_b, dtran_a0, dtran_b0
+           phi, acost, bcost, ccost, dtran_wave, dtran_theta, dtran_a, dtran_b, dtran_a0, dtran_b0, att_sd
 
 
 def read_rsr(file, sensorid):
@@ -68,7 +69,7 @@ def new_aerosol_1d(wave_target, rsr, wave_hico, albedo, extc, angstrom):
     wave_hico = np.array(wave_hico, 'int')
     for i in range(len(wave_target)):
         # if int(wave_target[i])<1080:
-        response_range = rsr[wave_target[i]][rsr[wave_target[i]] > 0.1]
+        response_range = rsr[wave_target[i]][rsr[wave_target[i]] > 0.001]
         response_wave = response_range.index.values
         response_val = response_range.values
 
@@ -226,8 +227,8 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         out_path = path_out+os.sep+'aerosol_' + sensorid + '_' + models[i] + 'v01.hdf'  # 模拟查找表的输出路径
 
         wave, scatt, albedo, extc, angstrom, phase, solz, senz, \
-        phi, acost, bcost, ccost, dtran_wave, dtran_theta, dtran_a, dtran_b, dtran_a0, dtran_b0 = read_hico_aerosol(
-            lut_path)
+        phi, acost, bcost, ccost, dtran_wave, dtran_theta, dtran_a, dtran_b, dtran_a0, dtran_b0, att_sd = \
+            read_hico_aerosol(lut_path)
         rsr, wave_rsr, wave_target = read_rsr(rsr_path,sensorid)
 
         albedo_new, extc_new, angstrom_new = new_aerosol_1d(wave_target, rsr, wave, albedo, extc, angstrom)
@@ -238,24 +239,24 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
 
         '''save'''
         hdffile = SD(out_path, SDC.WRITE | SDC.CREATE)
-        hdffile.Title = 'Aerosol Model Data for ' + sensorid
-        hdffile.Model_Name = models[i]
-        hdffile.Version = '01'
-        hdffile.Relative_Humidity = float(models[i][1:3])
-        hdffile.Size_Distribution = int(models[i][4:])
-        hdffile.Number_of_Wavelengths = len(wave_target)
-        hdffile.Number_of_Scattering_Angles = len(scatt)
-        hdffile.Number_of_Solar_Zenith_Angles = len(solz)
-        hdffile.Number_of_View_Zenith_Angles = len(senz)
-        hdffile.Number_of_Relative_Azimuth_Angles = len(phi)
-        hdffile.Number_of_Diffuse_Transmittance_Wavelengths = len(wave)
-        hdffile.Number_of_Diffuse_Transmittance_Zenith_Angles = len(dtran_theta)
-        hdffile.Creation_Date = str(datetime.datetime.now())
-        hdffile.Created_by = 'liwenkai'
+        hdffile.attr('Title').set(SDC.CHAR, 'Aerosol Model Data for ' + sensorid)
+        hdffile.attr('Model Name').set(SDC.CHAR, models[i])
+        hdffile.attr('Version').set(SDC.CHAR, '01')
+        hdffile.attr('Relative Humidity').set(SDC.FLOAT32, float(models[i][1:3]))
+        hdffile.attr('Size Distribution').set(SDC.INT16, att_sd)
+        hdffile.attr('Number of Wavelengths').set(SDC.INT16, len(wave_target))
+        hdffile.attr('Number of Scattering Angles').set(SDC.INT16, len(scatt))
+        hdffile.attr('Number of Solar Zenith Angles').set(SDC.INT16, len(solz))
+        hdffile.attr('Number of View Zenith Angles').set(SDC.INT16, len(senz))
+        hdffile.attr('Number of Relative Azimuth Angles').set(SDC.INT16, len(phi))
+        hdffile.attr('Number of Diffuse Transmittance Wavelengths').set(SDC.INT16, len(wave_target))
+        hdffile.attr('Number of Diffuse Transmittance Zenith Angles').set(SDC.INT16, len(dtran_theta))
+        hdffile.attr('Creation Date').set(SDC.CHAR, str(datetime.datetime.now()))
+        hdffile.attr('Created by').set(SDC.CHAR, 'Jilin Men and Wenkai Li based on  HICO')
 
         # create dataset
         wave_target = wave_target.astype('float32')
-        wave_target = wave_target[wave_target <= 1080]
+        wave_target = wave_target[wave_target <= 1080].to_numpy().astype('float32')
 
         d1 = hdffile.create('wave', SDC.FLOAT32, wave_target.shape)
         d1.long_name = 'wavelengths'
@@ -275,30 +276,30 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d3.long_name = 'single scattering albedo'
         d3.units = 'dimensionless'
         d3_dim1 = d3.dim(0)
-        # d3_dim1.setname('nwave')
+        d3_dim1.setname('nwave')
         d3[:] = albedo_new
 
         d4 = hdffile.create('extc', SDC.FLOAT32, extc_new.shape)
         d4.long_name = 'extinction coefficient'
         d4.units = 'dimensionless'
         d4_dim1 = d4.dim(0)
-        # d4_dim1.setname('nwave')
+        d4_dim1.setname('nwave')
         d4[:] = extc_new
 
         d5 = hdffile.create('angstrom', SDC.FLOAT32, angstrom_new.shape)
         d5.long_name = 'angstrom coefficient'
         d5.units = 'dimensionless'
         d5_dim1 = d5.dim(0)
-        # d5_dim1.setname('nwave')
+        d5_dim1.setname('nwave')
         d5[:] = angstrom_new
 
         d6 = hdffile.create('phase', SDC.FLOAT32, phase_new.shape)
         d6.long_name = 'volume scattering function'
         d6.units = 'dimensionless'
-        # d6_dim1 = d6.dim(0)
-        # d6_dim2 = d6.dim(1)
-        # d6_dim1.setname('nwave')
-        # d6_dim2.setname('nscatt')
+        d6_dim1 = d6.dim(0)
+        d6_dim2 = d6.dim(1)
+        d6_dim1.setname('nwave')
+        d6_dim2.setname('nscatt')
         d6[:] = phase_new
 
         d7 = hdffile.create('solz', SDC.FLOAT32, solz.shape)
@@ -329,10 +330,10 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d10_dim2 = d10.dim(1)
         d10_dim3 = d10.dim(2)
         d10_dim4 = d10.dim(3)
-        # d10_dim1.setname('nwave')
-        # d10_dim2.setname('nsolz')
-        # d10_dim3.setname('nphi')
-        # d10_dim4.setname('nsenz')
+        d10_dim1.setname('nwave')
+        d10_dim2.setname('nsolz')
+        d10_dim3.setname('nphi')
+        d10_dim4.setname('nsenz')
         d10[:] = acost_new
 
         d11 = hdffile.create('bcost', SDC.FLOAT32, bcost_new.shape)
@@ -342,10 +343,10 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d11_dim2 = d11.dim(1)
         d11_dim3 = d11.dim(2)
         d11_dim4 = d11.dim(3)
-        # d11_dim1.setname('nwave')
-        # d11_dim2.setname('nsolz')
-        # d11_dim3.setname('nphi')
-        # d11_dim4.setname('nsenz')
+        d11_dim1.setname('nwave')
+        d11_dim2.setname('nsolz')
+        d11_dim3.setname('nphi')
+        d11_dim4.setname('nsenz')
         d11[:] = bcost_new
 
         d12 = hdffile.create('ccost', SDC.FLOAT32, ccost_new.shape)
@@ -355,24 +356,24 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d12_dim2 = d12.dim(1)
         d12_dim3 = d12.dim(2)
         d12_dim4 = d12.dim(3)
-        # d12_dim1.setname('nwave')
-        # d12_dim2.setname('nsolz')
-        # d12_dim3.setname('nphi')
-        # d12_dim4.setname('nsenz')
+        d12_dim1.setname('nwave')
+        d12_dim2.setname('nsolz')
+        d12_dim3.setname('nphi')
+        d12_dim4.setname('nsenz')
         d12[:] = ccost_new
 
         d13 = hdffile.create('dtran_wave', SDC.FLOAT32, wave_target.shape)
         d13.long_name = 'wavelengths of the diffuse transmittance coeffs'
         d13.units = 'nm'
         d13_dim1 = d13.dim(0)
-        # d13_dim1.setname('dtran_nwave')
+        d13_dim1.setname('dtran_nwave')
         d13[:] = wave_target
 
         d14 = hdffile.create('dtran_theta', SDC.FLOAT32, dtran_theta.shape)
         d14.long_name = 'zenith angles of the diffuse transmittance coeffs'
         d14.units = 'degrees'
         d14_dim1 = d14.dim(0)
-        # d14_dim1.setname('dtran_ntheta')
+        d14_dim1.setname('dtran_ntheta')
         d14[:] = dtran_theta
 
         d15 = hdffile.create('dtran_a', SDC.FLOAT32, dtran_a_new.shape)
@@ -380,8 +381,8 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d15.units = 'dimensionless'
         d15_dim1 = d15.dim(0)
         d15_dim2 = d15.dim(1)
-        # d15_dim1.setname('dtran_nwave')
-        # d15_dim2.setname('dtran_ntheta')
+        d15_dim1.setname('dtran_nwave')
+        d15_dim2.setname('dtran_ntheta')
         d15[:] = dtran_a_new
 
         d16 = hdffile.create('dtran_b', SDC.FLOAT32, dtran_b_new.shape)
@@ -389,8 +390,8 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d16.units = 'dimensionless'
         d16_dim1 = d16.dim(0)
         d16_dim2 = d16.dim(1)
-        # d16_dim1.setname('dtran_nwave')
-        # d16_dim2.setname('dtran_ntheta')
+        d16_dim1.setname('dtran_nwave')
+        d16_dim2.setname('dtran_ntheta')
         d16[:] = dtran_b_new
 
         d17 = hdffile.create('dtran_a0', SDC.FLOAT32, dtran_a0_new.shape)
@@ -398,8 +399,8 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d17.units = 'dimensionless'
         d17_dim1 = d17.dim(0)
         d17_dim2 = d17.dim(1)
-        # d17_dim1.setname('dtran_nwave')
-        # d17_dim2.setname('dtran_ntheta')
+        d17_dim1.setname('dtran_nwave')
+        d17_dim2.setname('dtran_ntheta')
         d17[:] = dtran_a0_new
 
         d18 = hdffile.create('dtran_b0', SDC.FLOAT32, dtran_b0_new.shape)
@@ -407,8 +408,8 @@ def run_main(rsr_path,path_hico, path_out, sensorid):
         d18.units = 'dimensionless'
         d18_dim1 = d18.dim(0)
         d18_dim2 = d18.dim(1)
-        # d18_dim1.setname('dtran_nwave')
-        # d18_dim2.setname('dtran_ntheta')
+        d18_dim1.setname('dtran_nwave')
+        d18_dim2.setname('dtran_ntheta')
         d18[:] = dtran_b0_new
 
         d1.endaccess()

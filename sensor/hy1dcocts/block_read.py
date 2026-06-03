@@ -54,7 +54,10 @@ class ReadIterator(object):
             data = np.zeros(shape=(y_offset, self.XSize, size)) + np.nan
             ds = h5py.File(self.in_file, mode="r")
             for i, band_name in enumerate(self.bands_name):
-                data[:, :, i] = ds["Geophysical Data/DN_"+str(band_name)][self.lag:self.lag+y_offset, :]
+                try:
+                    data[:, :, i] = ds["Geophysical Data/DN_"+str(band_name)][self.lag:self.lag+y_offset, :]
+                except:
+                    data[:, :, i] = ds["Geophysical Data/L_"+str(band_name)][self.lag:self.lag+y_offset, :]
 
             navi_ = ["Latitude", "Longitude", "Sun Zenith Angle", "Sun Azimuth Angle", "Satellite Zenith Angle",
                      "Satellite Azimuth Angle"]
@@ -65,12 +68,14 @@ class ReadIterator(object):
             vza = ds["Navigation Data/" + "Satellite Zenith Angle"][self.lag:self.lag + y_offset, :]
             vaa = ds["Navigation Data/" + "Satellite Azimuth Angle"][self.lag:self.lag + y_offset, :]
 
-            # cal = ds["Calibration/" + "Vicarious Calibration gain factor"][()]
-            # gains = cal.reshape(-1)[0:8]
-            # offsets = np.zeros_like(gains)
-            # gains = np.zeros_like(gains)+1.
-            offsets = ds["Calibration/" + "Calibration Coefficients Offsets factor"][0:8]
-            gains = ds["Calibration/" + "Calibration Coefficients Scale factor"][0:8]
+            cal = ds["Calibration/" + "Vicarious Calibration gain factor"][()]
+            gains = cal.reshape(-1)[0:8]
+            
+            offsets = np.zeros_like(gains)
+            gains = np.zeros_like(gains)+1.
+            # offsets = ds["Calibration/" + "Calibration Coefficients Offsets factor"][0:8]
+            # gains = ds["Calibration/" + "Calibration Coefficients Scale factor"][0:8]
+            
             # gains = cal.reshape(-1)[0:8]
             # offsets = np.zeros_like(gains)
             # gains = np.zeros_like(gains)+1.
